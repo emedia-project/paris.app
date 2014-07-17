@@ -41,7 +41,7 @@ help() ->
 update(Force) ->
   ?CONSOLE("* Fetch templates versions...", []),
   RebarTemplatesDir = filename:join([os:getenv("HOME"), ".rebar", "templates"]),
-  RebarTemplatesCache = filename:join([RebarTemplatesDir, ".cache"]),
+  RebarTemplatesCache = filename:join([RebarTemplatesDir, ".paris.app.cache"]),
   case paris_utils:make_dir(RebarTemplatesDir) of
     {error, _} -> ?CONSOLE("[E] Can't create ~s", [RebarTemplatesDir]);
     ok -> 
@@ -77,5 +77,22 @@ perform_update(RebarTemplatesDir, RebarTemplatesCache) ->
     Version -> 
       ?CONSOLE("* => ~s", [Version]),
       git:checkout(RebarTemplatesCache, Version)
+  end,
+  lists:foreach(fun(File) ->
+        case file:delete(File) of
+          ok -> ?CONSOLE("* Delete old file ~s", [filename:basename(File)]);
+          _ -> ?CONSOLE("[W] Can't delete file ~s", [filename:basename(File)])
+        end
+    end, filelib:wildcard(filename:join([RebarTemplatesDir, "paris*"]))),
+  case file:list_dir_all(filename:join([RebarTemplatesCache, ?TEMPLATES_DIR])) of
+    {ok, Files} -> lists:foreach(fun(File) ->
+            case file:copy(
+                filename:join([RebarTemplatesCache, ?TEMPLATES_DIR, File]), 
+                filename:join([RebarTemplatesDir, File])) of
+              {ok, _} -> ?CONSOLE("* Install ~s...", [File]);
+              {error, _} -> ?CONSOLE("[E] Can't install ~s...", [File])
+            end
+        end, Files);
+    _ -> ?CONSOLE("[E] Can't find templates...", [])
   end.
   
