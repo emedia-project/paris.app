@@ -1,0 +1,3 @@
+-define(CONSOLE(Str, Args), io:format(Str++"~n", Args)).
+-define(GIT_TEMPLATE_URL, "https://github.com/emedia-project/paris.app").
+-define(TEMPLATES_DIR, "rebar_templates").

@@ -1,0 +1,11 @@
+{application, paris,
+ [
+  {description, "Paris build tool"},
+  {vsn, "0.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.
