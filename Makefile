@@ -19,7 +19,7 @@ else
 	@echo "!!! Please commit all your changes before release"
 endif
 	#git clone git@github.com:emedia-project/paris.app.wiki.git
-	#cp paris paris.app.wiki/paris
+	#mv paris paris.app.wiki/paris
 	#cd paris.app.wiki; git commit -am "New release"; git push origin master
 	#rm -rf paris.app.wiki
 endif
