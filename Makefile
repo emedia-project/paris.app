@@ -15,13 +15,15 @@ ifeq ($(VERSION),ERROR)
 else
 ifeq ($(UNSTAGED),0)
 	@echo "==> Release version $(VERSION)"
+	git clone git@github.com:emedia-project/paris.app.wiki.git
+	cp paris paris.app.wiki/paris
+	cd paris.app.wiki; git commit -am "New release $(VERSION)"; git push origin master
+	rm -rf paris.app.wiki
+	git tag $(VERSION)
+	git push --tags
 else
 	@echo "!!! Please commit all your changes before release ($(UNSTAGED))"
 endif
-	#git clone git@github.com:emedia-project/paris.app.wiki.git
-	#mv paris paris.app.wiki/paris
-	#cd paris.app.wiki; git commit -am "New release"; git push origin master
-	#rm -rf paris.app.wiki
 endif
 
 compile: get-deps
