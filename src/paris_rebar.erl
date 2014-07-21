@@ -16,9 +16,10 @@ build_params([], Result) when is_list(Result) ->
         atom_to_list(Key) ++ "=" ++ Value
     end, Result);
 build_params([Param|Rest], Result) when is_list(Result) ->
-  {Key, Value} = paris_utils:split_first(Param, "="),
-  build_params(Rest, eutils:merge_keylists(
-      1, 
-      [{list_to_atom(string:strip(Key)), string:strip(Value)}],
-      Result
-      )).
+  case paris_utils:split_first(Param, "=") of
+    {_, []} -> build_params(Rest, Result);
+    {Key, Value} ->
+      NewKV = [{list_to_atom(string:strip(Key)), string:strip(Value)}],
+      NewResult = elists:merge_keylists(1, NewKV, Result),
+      build_params(Rest, NewResult)
+  end.

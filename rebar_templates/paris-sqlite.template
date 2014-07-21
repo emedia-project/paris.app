@@ -1,0 +1,36 @@
+{variables, [
+  {name, "myproject"}, 
+  {copyright_year, "2014"},
+  {author_name, "Gregoire Lejeune"},
+  {author_email,"gregoire.lejeune@free.fr"},
+  {description, "A project build with Paris"}
+]}.
+{dir, "{{name}}"}.
+{dir, "{{name}}/apps"}.
+{dir, "{{name}}/apps/{{name}}"}.
+{dir, "{{name}}/apps/{{name}}/priv"}.
+{dir, "{{name}}/apps/{{name}}/priv/ssl"}.
+{dir, "{{name}}/apps/{{name}}/priv/static"}.
+{dir, "{{name}}/apps/{{name}}/priv/static/img"}.
+{dir, "{{name}}/apps/{{name}}/src"}.
+{dir, "{{name}}/apps/{{name}}/src/controller"}.
+{dir, "{{name}}/apps/{{name}}/src/model"}.
+{dir, "{{name}}/apps/{{name}}/src/view"}.
+{dir, "{{name}}/config"}.
+{template, "paris_README.md", "{{name}}/README.md"}.
+{template, "paris_start.sh", "{{name}}/{{name}}"}.
+{chmod, 8#00770, "{{name}}/{{name}}"}.
+{file, "paris_rebar_sqlite.config", "{{name}}/rebar.config"}.
+{template, "paris_Makefile", "{{name}}/Makefile"}.
+{file, "paris_gitignore", "{{name}}/.gitignore"}.
+{template, "paris_config", "{{name}}/config/{{name}}.config"}.
+{file, "paris_vm.args", "{{name}}/config/vm.args"}.
+{template, "paris_app_src", "{{name}}/apps/{{name}}/src/{{name}}.app.src"}.
+{template, "paris_app_erl", "{{name}}/apps/{{name}}/src/{{name}}.erl"}.
+{file, "paris_index_erl", "{{name}}/apps/{{name}}/src/controller/index.erl"}.
+{template, "paris_index_html", "{{name}}/apps/{{name}}/src/view/index.html"}.
+{file, "paris_img_erlang.png", "{{name}}/apps/{{name}}/priv/static/img/erlang.png"}.
+{file, "paris_rebar", "{{name}}/rebar"}.
+{chmod, 8#00770, "{{name}}/rebar"}.
+{file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/model/.gitkeep"}.
+{file, "paris_gitkeep", "{{name}}/apps/{{name}}/priv/ssl/.gitkeep"}.
