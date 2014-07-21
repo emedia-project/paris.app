@@ -4,7 +4,7 @@ Paris.app is a generator to help you to create [paris](https://github.com/emedia
 
 ## Install
 
-Download [`paris`](), make it executable and place it in your `PATH`.
+Download [paris](https://github.com/emedia-project/paris.app/raw/master/paris), make it executable and place it in your `PATH`.
 
 Then, run `paris update` to install the needed templates.
 
