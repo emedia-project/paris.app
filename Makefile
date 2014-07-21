@@ -1,6 +1,5 @@
 REBAR       = ./rebar
 VERSION     = $(shell ./tag)
-UNSTAGED    = $(shell git status -s -uno | wc -l | tail -c2)
 
 .PHONY: compile get-deps
 
@@ -13,17 +12,14 @@ release: build
 ifeq ($(VERSION),ERROR)
 	@echo "**> Can't find version!"
 else
-ifeq ($(UNSTAGED),0)
 	@echo "==> Release version $(VERSION)"
 	git clone git@github.com:emedia-project/paris.app.wiki.git
 	cp paris paris.app.wiki/paris
 	cd paris.app.wiki; git commit -am "New release $(VERSION)"; git push origin master
 	rm -rf paris.app.wiki
+	git commit -am "Release version $(VERSION)"
 	git tag $(VERSION)
 	git push origin master --tags
-else
-	@echo "!!! Please commit all your changes before release ($(UNSTAGED))"
-endif
 endif
 
 compile: get-deps
