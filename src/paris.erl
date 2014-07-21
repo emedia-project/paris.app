@@ -3,6 +3,7 @@
 -export([
   main/1,
   get_version/0,
+  get_script/0,
   get_script_name/0
   ]).
 -include("paris.hrl").
@@ -39,6 +40,9 @@ run(_) ->
 
 get_script_name() ->
   filename:basename(escript:script_name()).
+
+get_script() ->
+  escript:script_name().
 
 version() ->
   ?CONSOLE("~s ~s", [get_script_name(), get_version()]). 

@@ -72,6 +72,14 @@ perform_update(RebarTemplatesDir, RebarTemplatesCache) ->
             end
         end, Files);
     _ -> ?CONSOLE("[E] Can't find templates...", [])
+  end,
+  case file:copy(
+      filename:join([RebarTemplatesCache, "paris"]),
+      paris:get_script()) of
+    {ok, _} -> 
+      file:change_mode(paris:get_script(), 8#00770),
+      ?CONSOLE("* Update ~s", [paris:get_script()]);
+    {error, _} ->
+      ?CONSOLE("[E] Can't update ~s", [paris:get_script()])
   end.
-  
 
