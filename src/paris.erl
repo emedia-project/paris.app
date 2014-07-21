@@ -23,10 +23,15 @@ run(["--rebar"|Rest]) ->
   paris_rebar:run(Rest);
 run([Command|Params]) ->
   Module = command_module(Command),
-  try
-    Module:run(Params) 
-  catch
-    _:_ -> ?CONSOLE("Invalid `~s' usage", [Command]), help([Command])
+  case paris_utils:module_exist(Module) of
+    true ->
+      try
+        Module:run(Params) 
+      catch
+        _:_ -> ?CONSOLE("Invalid `~s' usage", [Command]), help([Command])
+      end;
+    false ->
+      ?CONSOLE("Command `~s' does not exist.", [Command]), help()
   end;
 run(_) ->
   run([]).
@@ -55,7 +60,7 @@ help(Rest) ->
       ?CONSOLE("     --rebar          : Run rebar command", []),
       ?CONSOLE("~nCommands:~n", []),
       ?CONSOLE("update                : Update paris.app", []),
-      ?CONSOLE("new <name>            : Create a new Paris app", []);
+      ?CONSOLE("new                   : Create a new Paris app", []);
     [Command|_] ->
       Module = command_module(Command),
       try 

@@ -22,27 +22,33 @@ help() ->
   ?CONSOLE("     --with-sqlite    : Use SQLite (default)", []).
 
 create(AppName, Params) ->
-  AppParams = paris_rebar:build_params(Params, [
-        {name, AppName}, 
-        {copyright_year, year()},
-        {author_name, "YOUR_NAME"},
-        {author_email,"YOUR_MAIL"},
-        {description, "A project build with Paris"}
-        ]),
-  ?CONSOLE("Create app ~s...", [AppName]),
-  TemplateName = case paris_utils:include("--without-texas", Params) of
-    true -> "paris";
-    false -> case paris_utils:include("--with-pg", Params) of
-        true -> "paris-pg";
-        false -> case paris_utils:include("--with-mysql", Params) of
-            true -> "paris-mysql";
-            false -> "paris-sqlite"
+  case paris_update:ready() of
+    true ->
+      AppParams = paris_rebar:build_params(Params, [
+            {name, AppName}, 
+            {copyright_year, year()},
+            {author_name, "YOUR_NAME"},
+            {author_email,"YOUR_MAIL"},
+            {description, "A project build with Paris"}
+            ]),
+      ?CONSOLE("Create app ~s...", [AppName]),
+      TemplateName = case paris_utils:include("--without-texas", Params) of
+        true -> "paris";
+        false -> case paris_utils:include("--with-pg", Params) of
+            true -> "paris-pg";
+            false -> case paris_utils:include("--with-mysql", Params) of
+                true -> "paris-mysql";
+                false -> "paris-sqlite"
+              end
           end
-      end
-  end,
-  case paris_utils:include("--force", Params) or paris_utils:include("-f", Params) of
-    true -> paris_rebar:run(["-f", "create", "template=" ++ TemplateName] ++ AppParams);
-    false -> paris_rebar:run(["create", "template=" ++ TemplateName] ++ AppParams)
+      end,
+      case paris_utils:include("--force", Params) or paris_utils:include("-f", Params) of
+        true -> paris_rebar:run(["-f", "create", "template=" ++ TemplateName] ++ AppParams);
+        false -> paris_rebar:run(["create", "template=" ++ TemplateName] ++ AppParams)
+      end;
+    false -> 
+      ?CONSOLE("Please, run `~s update' to install templates.", [paris:get_script_name()]),
+      ?CONSOLE("See `~s --help update' for more informations.", [paris:get_script_name()])
   end.
 
 year() ->

@@ -1,6 +1,6 @@
 -module(paris_update).
 
--export([run/1, help/0]).
+-export([run/1, help/0, ready/0]).
 -include("paris.hrl").
 
 run(Params) ->
@@ -11,6 +11,10 @@ help() ->
   ?CONSOLE("~s update [options]", [paris:get_script_name()]),
   ?CONSOLE("~nOptions:~n", []),
   ?CONSOLE("     --force          : Force to reinstall the last version", []).
+
+ready() ->
+  RebarTemplateFile = filename:join([os:getenv("HOME"), ".rebar", "templates", "paris.template"]),
+  filelib:is_regular(RebarTemplateFile).
 
 update(Force) ->
   ?CONSOLE("* Fetch templates versions...", []),

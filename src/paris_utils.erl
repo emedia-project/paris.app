@@ -5,7 +5,8 @@
   include/2,
   make_dir/1,
   remove_recursive/1,
-  fmax/2
+  fmax/2,
+  module_exist/1
   ]).
 
 split_first(String, Token) ->
@@ -45,3 +46,17 @@ fmax(Fun, List) ->
           false -> Max
         end
     end, First, Rest).
+
+module_exist(Module) ->
+  case is_atom(Module) of
+    true ->
+      try Module:module_info() of
+        _InfoList ->
+          true
+      catch
+        _:_ ->
+          false
+      end;
+    false ->
+      false
+  end.
