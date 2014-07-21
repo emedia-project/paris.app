@@ -20,7 +20,7 @@ ifeq ($(UNSTAGED),0)
 	cd paris.app.wiki; git commit -am "New release $(VERSION)"; git push origin master
 	rm -rf paris.app.wiki
 	git tag $(VERSION)
-	git push --tags
+	git push origin master --tags
 else
 	@echo "!!! Please commit all your changes before release ($(UNSTAGED))"
 endif
