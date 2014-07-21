@@ -1,5 +1,20 @@
 # Paris.app
 
+## Plugins
+
+You can create your own plugins for Paris.app.
+
+A plugin is a simple module. If you want to create a plugin to expose a new command, your plugin must be named `plugin_<command>` and, at least, export two function :
+
+* `run/1` : this function is called when you invoke the command. It receive a list of parameters.
+* `help/0` : this function is display the command help.
+
+If you want to create a generator, your plugin must be named `plugin_generator_<generator>` and, at least, export one function :
+
+* `generate/1` : this function is called when you invoke the generator. It receive a list of parameters.
+
+> In the `plugins` directory, you will find some examples. The plugin `paris_generator_plugin.erl` is a plugin that's help you to generate plugins ;)
+
 ## Licences
 
 Paris.app is available for use under the following license, commonly known

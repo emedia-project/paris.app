@@ -9,6 +9,7 @@
 
 main(Args) ->
   _ = application:start(paris),
+  _ = paris_plugins:init(),
   run(Args).
 
 run([]) ->
@@ -60,7 +61,8 @@ help(Rest) ->
       ?CONSOLE("     --rebar          : Run rebar command", []),
       ?CONSOLE("~nCommands:~n", []),
       ?CONSOLE("update                : Update paris.app", []),
-      ?CONSOLE("new                   : Create a new Paris app", []);
+      ?CONSOLE("new                   : Create a new Paris app", []),
+      ?CONSOLE("generate              : Invoke a generator", []);
     [Command|_] ->
       Module = command_module(Command),
       try 
