@@ -19,7 +19,7 @@ ready() ->
 update(Force) ->
   ?CONSOLE("* Fetch templates versions...", []),
   RebarTemplatesDir = filename:join([os:getenv("HOME"), ".rebar", "templates"]),
-  RebarTemplatesCache = filename:join([RebarTemplatesDir, ".paris.app.cache"]),
+  RebarTemplatesCache = filename:join([os:getenv("HOME"), ".paris", ".app.cache"]),
   case paris_utils:make_dir(RebarTemplatesDir) of
     {error, _} -> ?CONSOLE("[E] Can't create ~s", [RebarTemplatesDir]);
     ok -> 
