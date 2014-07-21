@@ -12,7 +12,13 @@ generate(Params) ->
   end.
 
 g(_, ["--help"|_]) ->
-  ?CONSOLE("Plugin generator help...", []);
+  ?CONSOLE("Usage:", []),
+  ?CONSOLE("~s generate plugin [params] [options]", [paris:get_script_name()]),
+  ?CONSOLE("~nParams:~n", []),
+  ?CONSOLE("<name>            : Generate a command plugin with <name>", []),
+  ?CONSOLE("generator <name>  : Generate a generator plugin with <name>", []),
+  ?CONSOLE("~nOptions:~n", []),
+  ?CONSOLE("     --help           : Display this help", []);
 g(PluginsPath, ["generator", Name|_]) ->
   PluginFile = filename:join([PluginsPath, "paris_generator_" ++ Name ++ ".erl"]),
   ?CONSOLE("Generate plugin generator ~s", [PluginFile]),

@@ -13,7 +13,9 @@ If you want to create a generator, your plugin must be named `plugin_generator_<
 
 * `generate/1` : this function is called when you invoke the generator. It receive a list of parameters.
 
-> In the `plugins` directory, you will find some examples. The plugin `paris_generator_plugin.erl` is a plugin that's help you to generate plugins ;)
+> In the `plugins` directory, you will find some examples. The plugin `paris_generator_plugin.erl` is a plugin that's help you to generate plugins. Copy the plugin file in `~/.paris/plugins` then run
+>
+>     ./paris generate plugin --help
 
 ## Licences
 
