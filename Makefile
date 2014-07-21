@@ -1,6 +1,6 @@
 REBAR       = ./rebar
 VERSION     = $(shell ./tag)
-UNSTAGED    = $(shell git status -s -uno | wc -l | awk '{print $1}')
+UNSTAGED    = $(shell git status -s -uno | wc -l | tail -c2)
 
 .PHONY: compile get-deps
 
@@ -16,7 +16,7 @@ else
 ifeq ($(UNSTAGED),0)
 	@echo "==> Release version $(VERSION)"
 else
-	@echo "!!! Please commit all your changes before release"
+	@echo "!!! Please commit all your changes before release ($(UNSTAGED))"
 endif
 	#git clone git@github.com:emedia-project/paris.app.wiki.git
 	#mv paris paris.app.wiki/paris
