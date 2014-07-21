@@ -19,9 +19,20 @@ path() ->
 init_plugins(PluginsPath) ->
   code:add_patha(PluginsPath),
   lists:foreach(fun(File) ->
-        _ = case compile:file(File, [{outdir, PluginsPath}]) of
-          error -> ?CONSOLE("Failed to load plugin from ~s", [File]);
-          {error, _, _} -> ?CONSOLE("Failed to load plugin from ~s", [File]);
+        case filename:extension(File) of
+          ".erl" ->
+            _ = case compile:file(File, [{outdir, PluginsPath}]) of
+              error -> ?CONSOLE("Failed to load plugin from ~s", [File]);
+              {error, _, _} -> ?CONSOLE("Failed to load plugin from ~s", [File]);
+              _ -> ok
+            end;
+          ".dtl" ->
+            Module = list_to_atom(filename:basename(File, ".dtl") ++ "_dtl"),
+            _ = case erlydtl:compile_file(File, Module, [{out_dir, PluginsPath}]) of
+              error -> ?CONSOLE("Failed to template ~s", [File]);
+              {error, _, _} -> ?CONSOLE("Failed to template ~s", [File]);
+              _ -> ok
+            end;
           _ -> ok
         end
-    end, filelib:wildcard(filename:join([PluginsPath, "*.erl"]))).
+    end, filelib:wildcard(filename:join([PluginsPath, "*"]))).

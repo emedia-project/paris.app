@@ -21,35 +21,18 @@ g(_, ["--help"|_]) ->
   ?CONSOLE("     --help           : Display this help", []);
 g(PluginsPath, ["generator", Name|_]) ->
   PluginFile = filename:join([PluginsPath, "paris_generator_" ++ Name ++ ".erl"]),
-  ?CONSOLE("Generate plugin generator ~s", [PluginFile]),
-  file:write_file(PluginFile, 
-  "-module(paris_generator_" ++ Name ++ ").
-  
--export([generate/1]).
--define(CONSOLE(Str, Args), io:format(Str++\"\~n\", Args)).
-
-generate([\"--help\"|_]) -> help();
-generate(_Params) ->
-  ?CONSOLE(\"Execute generator `" ++ Name ++ "'...\", []).
-
-help() ->
-  ?CONSOLE(\"Usage:\", []),
-  ?CONSOLE(\"\~s generate " ++ Name ++ " [params] [options]\", [paris:get_script_name()]),
-  ?CONSOLE(\"\~nOptions:\~n\", []),
-  ?CONSOLE(\"     --help           : Display this help\", []).");
+  case plugin_generator_dtl:render([{name, Name}]) of
+    {ok, Data} -> 
+      ?CONSOLE("Generate plugin generator ~s", [PluginFile]),
+      file:write_file(PluginFile, Data);
+    _ -> ?CONSOLE("Faild to generate plugin ~s", [PluginFile])
+  end;
 g(PluginsPath, [Name|_]) ->
   PluginFile = filename:join([PluginsPath, "paris_" ++ Name ++ ".erl"]),
-  ?CONSOLE("Generate plugin ~s", [PluginFile]),
-  file:write_file(PluginFile, 
-  "-module(paris_" ++ Name ++ ").
-  
--export([run/1, help/0]).
--define(CONSOLE(Str, Args), io:format(Str++\"\~n\", Args)).
-
-run(_Params) ->
-  ?CONSOLE(\"Execute command `" ++ Name ++ "'...\", []).
-
-help() ->
-  ?CONSOLE(\"Usage:\", []),
-  ?CONSOLE(\"\~s " ++ Name ++ " [params] [options]\", [paris:get_script_name()]).").
+  case plugin_command_dtl:render([{name, Name}]) of
+    {ok, Data} -> 
+      ?CONSOLE("Generate plugin ~s", [PluginFile]),
+      file:write_file(PluginFile, Data);
+    _ -> ?CONSOLE("Faild to generate plugin ~s", [PluginFile])
+  end.
 

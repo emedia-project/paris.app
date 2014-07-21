@@ -1,5 +1,19 @@
 # Paris.app
 
+Paris.app is a generator to help you to create [paris](https://github.com/emedia-project/paris) applications. 
+
+## Install
+
+Download [`paris`](), make it executable and place it in your `PATH`.
+
+Then, run `paris update` to install the needed templates.
+
+Finaly, you can create you Paris' applicatio queleton by running :
+
+```sh
+paris new my_app
+```
+
 ## Plugins
 
 You can create your own plugins for Paris.app.
@@ -13,9 +27,11 @@ If you want to create a generator, your plugin must be named `plugin_generator_<
 
 * `generate/1` : this function is called when you invoke the generator. It receive a list of parameters.
 
-> In the `plugins` directory, you will find some examples. The plugin `paris_generator_plugin.erl` is a plugin that's help you to generate plugins. Copy the plugin file in `~/.paris/plugins` then run
+> In the `plugins` directory, you will find some examples. The plugin `paris_generator_plugin.erl` is a plugin that's help you to generate plugins. Copy the plugin file and the two templates (`plugin_command.dtl` and `plugin_generator.dtl`) in `~/.paris/plugins` then run
 >
 >     ./paris generate plugin --help
+
+As you can see in the plugin generator example, you can use [ErlyDTL](https://github.com/erlydtl/erlydtl) templates with your plugins.
 
 ## Licences
 

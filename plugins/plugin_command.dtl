@@ -1,0 +1,11 @@
+-module(paris_{{ name }}).
+  
+-export([run/1, help/0]).
+-define(CONSOLE(Str, Args), io:format(Str++"~n", Args)).
+
+run(_Params) ->
+  ?CONSOLE("Execute command `{{ name }}'...", []).
+
+help() ->
+  ?CONSOLE("Usage:", []),
+  ?CONSOLE("~s {{ name }} [params] [options]", [paris:get_script_name()]).
