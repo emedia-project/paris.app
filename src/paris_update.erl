@@ -58,8 +58,8 @@ perform_update(RebarTemplatesDir, RebarTemplatesCache) ->
   end,
   lists:foreach(fun(File) ->
         case file:delete(File) of
-          ok -> ?CONSOLE("* Delete old file ~s", [filename:basename(File)]);
-          _ -> ?CONSOLE("[W] Can't delete file ~s", [filename:basename(File)])
+          ok -> ?CONSOLE("  * Delete old file ~s", [filename:basename(File)]);
+          _ -> ?CONSOLE("  [W] Can't delete file ~s", [filename:basename(File)])
         end
     end, filelib:wildcard(filename:join([RebarTemplatesDir, "paris*"]))),
   case file:list_dir_all(filename:join([RebarTemplatesCache, ?TEMPLATES_DIR])) of
@@ -67,11 +67,11 @@ perform_update(RebarTemplatesDir, RebarTemplatesCache) ->
             case file:copy(
                 filename:join([RebarTemplatesCache, ?TEMPLATES_DIR, File]), 
                 filename:join([RebarTemplatesDir, File])) of
-              {ok, _} -> ?CONSOLE("* Install ~s...", [File]);
-              {error, _} -> ?CONSOLE("[E] Can't install ~s...", [File])
+              {ok, _} -> ?CONSOLE("  * Install ~s...", [File]);
+              {error, _} -> ?CONSOLE("  [E] Can't install ~s...", [File])
             end
         end, Files);
-    _ -> ?CONSOLE("[E] Can't find templates...", [])
+    _ -> ?CONSOLE("  [E] Can't find templates...", [])
   end,
   case file:copy(
       filename:join([RebarTemplatesCache, "paris"]),
@@ -80,6 +80,6 @@ perform_update(RebarTemplatesDir, RebarTemplatesCache) ->
       file:change_mode(paris:get_script(), 8#00770),
       ?CONSOLE("* Update ~s", [paris:get_script()]);
     {error, _} ->
-      ?CONSOLE("[E] Can't update ~s", [paris:get_script()])
+      ?CONSOLE("  [E] Can't update ~s", [paris:get_script()])
   end.
 

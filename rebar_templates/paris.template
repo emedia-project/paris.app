@@ -23,7 +23,7 @@
 {file, "paris_rebar.config", "{{name}}/rebar.config"}.
 {template, "paris_Makefile", "{{name}}/Makefile"}.
 {file, "paris_gitignore", "{{name}}/.gitignore"}.
-{template, "paris_config", "{{name}}/config/{{name}}.config"}.
+{template, "paris_app.config", "{{name}}/config/{{name}}.config"}.
 {file, "paris_vm.args", "{{name}}/config/vm.args"}.
 {template, "paris_app_src", "{{name}}/apps/{{name}}/src/{{name}}.app.src"}.
 {template, "paris_app_erl", "{{name}}/apps/{{name}}/src/{{name}}.erl"}.

@@ -1,0 +1,24 @@
+[
+  { {{name}}, [
+    {port, 8080}, 
+    {ip, "0.0.0.0"},
+    {max_conn, 100},
+    {routes, [
+    ]},
+    {plugins, [
+    ]}
+  ]},
+  {texas, [
+    {uri, "pgsql://localhost:5432/{{ name }}"},
+    {autoconnect, true},
+    {tables, []}
+  ]},
+  {lager, [
+    {handlers, [
+      {lager_console_backend, info},
+      {lager_file_backend, [{file, "log/{{name}}_error.log"}, {level, error}]},
+      {lager_file_backend, [{file, "log/{{name}}_console.log"}, {level, info}]}
+    ]}
+  ]}
+].
+

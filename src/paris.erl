@@ -27,11 +27,7 @@ run([Command|Params]) ->
   Module = command_module(Command),
   case paris_utils:module_exist(Module) of
     true ->
-      try
-        Module:run(Params) 
-      catch
-        _:_ -> ?CONSOLE("Invalid `~s' usage", [Command]), help([Command])
-      end;
+      Module:run(Params); 
     false ->
       ?CONSOLE("Command `~s' does not exist.", [Command]), help()
   end;
@@ -64,9 +60,11 @@ help(Rest) ->
       ?CONSOLE("     --version        : Display version", []),
       ?CONSOLE("     --rebar          : Run rebar command", []),
       ?CONSOLE("~nCommands:~n", []),
+      ?CONSOLE("install               : Install components", []),
       ?CONSOLE("update                : Update paris.app", []),
       ?CONSOLE("new                   : Create a new Paris app", []),
-      ?CONSOLE("generate              : Invoke a generator", []);
+      ?CONSOLE("generate              : Invoke a generator", []),
+      ?CONSOLE("db                    : Manage database", []);
     [Command|_] ->
       Module = command_module(Command),
       try 

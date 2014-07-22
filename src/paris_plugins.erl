@@ -29,8 +29,8 @@ init_plugins(PluginsPath) ->
           ".dtl" ->
             Module = list_to_atom(filename:basename(File, ".dtl") ++ "_dtl"),
             _ = case erlydtl:compile_file(File, Module, [{out_dir, PluginsPath}]) of
-              error -> ?CONSOLE("Failed to template ~s", [File]);
-              {error, _, _} -> ?CONSOLE("Failed to template ~s", [File]);
+              error -> ?CONSOLE("Failed to load template ~s", [File]);
+              {error, E, _} -> ?CONSOLE("Failed to load template ~s : ~p", [File, E]);
               _ -> ok
             end;
           _ -> ok

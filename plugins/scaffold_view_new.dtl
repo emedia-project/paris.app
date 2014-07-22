@@ -1,0 +1,8 @@
+{% templatetag openblock %} extends "{{ ctrl_name }}_layout.html" {% templatetag closeblock %}
+{% templatetag openblock %} block content {% templatetag closeblock %}
+<h1>New {{ ctrl_name }}</h1>
+
+{% templatetag openblock %} include "{{ ctrl_name }}_form.html" {% templatetag closeblock %}
+
+<a href="/{{ ctrl_name }}">Back</a>
+{% templatetag openblock %} endblock {% templatetag closeblock %}

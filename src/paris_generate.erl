@@ -14,11 +14,7 @@ generate(Generator, Params) ->
   Module = generator_module(Generator),
   case paris_utils:module_exist(Module) of
     true ->
-      try
-        Module:generate(Params) 
-      catch
-        _:_ -> ?CONSOLE("Invalid generator `~s' usage", [Generator])
-      end;
+      Module:generate(Params);
     false ->
       ?CONSOLE("Generator `~s' does not exist.", [Generator])
   end.
