@@ -27,7 +27,11 @@ generate([ModelName|Params]) ->
               {ok, ViewFile} -> ?CONSOLE("> create ~s", [ViewFile]);
               {error, ViewFile} -> ?CONSOLE("[E] Can't create ~s", [ViewFile])
             end
-        end, [layout, form, index, new, show, edit]);
+        end, [layout, form, index, new, show, edit]),
+      case paris_config:texas_add_table(AppName, list_to_atom(inflector:singularize(ModelName))) of
+        ok -> ?CONSOLE("> Register table for ~s", [ModelName]);
+        {error, Error} -> ?CONSOLE("[E] Can't register table : ~s", [Error])
+      end;
     {true, _} -> ?CONSOLE("[W] Can't scaffold in a multi application!", []);
     false -> ?CONSOLE("[E] Not a paris application!", [])
   end.

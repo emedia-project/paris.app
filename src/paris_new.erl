@@ -22,7 +22,7 @@ help() ->
   ?CONSOLE("     --with-sqlite    : Use SQLite (default)", []).
 
 create(AppName, Params) ->
-  case paris_update:ready() of
+  case paris_install:ready() of
     true ->
       AppParams = paris_rebar:build_params(Params, [
             {name, AppName}, 

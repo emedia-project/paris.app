@@ -1,6 +1,7 @@
 -module(paris_install).
 
 -export([run/1, help/0]).
+-export([prepare/0, install_templates/2, install_plugins/2, ready/0]).
 -include("paris.hrl").
 
 run(Params) ->
@@ -19,13 +20,17 @@ help() ->
   ?CONSOLE("     --plugins        : Install plugins only", []),
   ?CONSOLE("     --all            : Install templates and plugins (default)", []).
 
+ready() ->
+  RebarTemplateFile = filename:join([os:getenv("HOME"), ".rebar", "templates", "paris.template"]),
+  filelib:is_regular(RebarTemplateFile).
+
 install(Templates, Plugins) ->
   case prepare() of
     {error, Error} -> ?CONSOLE("  [E] ~s", [Error]);
     {ok, RebarTemplatesDir, ParisPluginsDir, ParisCache} ->
       Version = paris:get_version(),
       ?CONSOLE("* Use version ~s", [Version]),
-      git:checkout(ParisCache, Version),
+      {ok, []} = git:checkout(ParisCache, Version),
       if
         Templates =:= true -> install_templates(RebarTemplatesDir, ParisCache);
         true -> ok
@@ -33,6 +38,10 @@ install(Templates, Plugins) ->
       if 
         Plugins =:= true -> install_plugins(ParisPluginsDir, ParisCache);
         true -> ok
+      end,
+      case paris_update:need_update(RebarTemplatesDir, ParisCache) of
+        true -> ?CONSOLE("[I] Update available. Run `~s update'", [paris:get_script_name()]);
+        false -> ok
       end,
       paris_utils:remove_recursive(ParisCache)
   end.
@@ -90,5 +99,5 @@ install_plugins(ParisPluginsDir, ParisCache) ->
               {error, _} -> ?CONSOLE("  [E] Can't install ~s...", [File])
             end
         end, Files);
-    _ -> ?CONSOLE("  [E] Can't find templates...", [])
+    _ -> ?CONSOLE("  [E] Can't find plugins...", [])
   end.
