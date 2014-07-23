@@ -8,7 +8,7 @@ Download [paris](https://github.com/emedia-project/paris.app/wiki/paris), make i
 
 Then, run `paris update` to install the needed templates.
 
-Finaly, you can create you Paris' applicatio queleton by running :
+Finaly, you can create you Paris' application queleton by running :
 
 ```sh
 paris new my_app
