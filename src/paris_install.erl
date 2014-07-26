@@ -5,8 +5,8 @@
 -include("paris.hrl").
 
 run(Params) ->
-  {InstallTemplates, InstallPlugins} = case {paris_utils:include("--templates", Params),
-                                             paris_utils:include("--plugins", Params)} of
+  {InstallTemplates, InstallPlugins} = case {paris_param:exist("--templates", Params),
+                                             paris_param:exist("--plugins", Params)} of
     {false, false} -> {true, true};
     E -> E
   end,

@@ -32,17 +32,17 @@ create(AppName, Params) ->
             {description, "A project build with Paris"}
             ]),
       ?CONSOLE("Create app ~s...", [AppName]),
-      TemplateName = case paris_utils:include("--without-texas", Params) of
+      TemplateName = case paris_param:exist("--without-texas", Params) of
         true -> "paris";
-        false -> case paris_utils:include("--with-pg", Params) of
+        false -> case paris_param:exist("--with-pg", Params) of
             true -> "paris-pg";
-            false -> case paris_utils:include("--with-mysql", Params) of
+            false -> case paris_param:exist("--with-mysql", Params) of
                 true -> "paris-mysql";
                 false -> "paris-sqlite"
               end
           end
       end,
-      case paris_utils:include("--force", Params) or paris_utils:include("-f", Params) of
+      case paris_param:exist("--force", Params) or paris_param:exist("-f", Params) of
         true -> paris_rebar:run(["-f", "create", "template=" ++ TemplateName] ++ AppParams);
         false -> paris_rebar:run(["create", "template=" ++ TemplateName] ++ AppParams)
       end;
