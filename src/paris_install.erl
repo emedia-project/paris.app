@@ -43,7 +43,7 @@ install(Templates, Plugins) ->
         true -> ?CONSOLE("[I] Update available. Run `~s update'", [paris:get_script_name()]);
         false -> ok
       end,
-      paris_utils:remove_recursive(ParisCache)
+      efile:remove_recursive(ParisCache)
   end.
 
 prepare() ->
@@ -51,13 +51,13 @@ prepare() ->
   RebarTemplatesDir = filename:join([os:getenv("HOME"), ".rebar", "templates"]),
   ParisPluginsDir = filename:join([os:getenv("HOME"), ".paris", "plugins"]),
   ParisCache = filename:join([os:getenv("HOME"), ".paris", ".app.cache"]),
-  case paris_utils:make_dir(RebarTemplatesDir) of
+  case efile:make_dir(RebarTemplatesDir) of
     {error, _} -> {error, "Can't create " ++ RebarTemplatesDir};
     ok -> 
-      case paris_utils:make_dir(ParisCache) of
+      case efile:make_dir(ParisCache) of
         {error, _} -> {error, "Can't create " ++ ParisCache};
         ok ->
-          case paris_utils:make_dir(ParisPluginsDir) of
+          case efile:make_dir(ParisPluginsDir) of
             {error, _} -> {error, "Can't create " ++ ParisPluginsDir};
             ok ->
               case git:clone(?GIT_TEMPLATE_URL, ParisCache) of

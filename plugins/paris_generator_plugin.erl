@@ -6,7 +6,7 @@
 
 generate(Params) ->
   PluginsPath = paris_plugins:path(),
-  case paris_utils:make_dir(PluginsPath) of
+  case efile:make_dir(PluginsPath) of
     {error, _} -> io:format("[E] Can't create plugin directory~n");
     ok -> g(PluginsPath, Params)
   end.

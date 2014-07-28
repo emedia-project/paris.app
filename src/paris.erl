@@ -25,7 +25,7 @@ run(["--rebar"|Rest]) ->
   paris_rebar:run(Rest);
 run([Command|Params]) ->
   Module = command_module(Command),
-  case paris_utils:module_exist(Module) of
+  case eutils:module_exist(Module) of
     true ->
       Module:run(Params); 
     false ->

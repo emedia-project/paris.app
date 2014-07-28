@@ -51,10 +51,10 @@ get_params(Params) ->
 
 get_params([], Result) -> Result;
 get_params([Current|Rest], Result) ->
-  Param = case paris_utils:split_first(Current, ":") of
+  Param = case estring:split_first(Current, ":") of
     {Key, []} -> {list_to_atom(Key), [{type, string}, {len, ?DEFAULT_STRING_LENGTH}]};
     {Key, Value} -> 
-      case paris_utils:split_first(Value, ":") of
+      case estring:split_first(Value, ":") of
         {Type, []} -> 
           case list_to_atom(Type) of
             string -> {list_to_atom(Key), [{type, string}, {len, ?DEFAULT_STRING_LENGTH}]};

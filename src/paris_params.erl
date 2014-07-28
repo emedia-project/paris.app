@@ -7,7 +7,7 @@
   ]).
 
 exist(Name, Params) ->
-  paris_utils:include(Name, Params).
+  elists:include(Name, Params).
 
 value(Name, Params) ->
   value(Name, undefined, Params).

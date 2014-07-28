@@ -34,7 +34,7 @@ update(Master, Force, InstallTemplates, InstallPlugins) ->
         true -> perform_update(Master, RebarTemplatesDir, ParisPluginsDir, ParisCache, InstallTemplates, InstallPlugins);
         false -> ?CONSOLE("[I] Already up-to-date", [])
       end,
-      paris_utils:remove_recursive(ParisCache);
+      efile:remove_recursive(ParisCache);
     {error, Error} -> ?CONSOLE("  [E] ~s", [Error])
   end.
 
@@ -51,7 +51,7 @@ perform_update(Master, RebarTemplatesDir, ParisPluginsDir, ParisCache, Templates
   UseVersion = if
     Master -> "master";
     true ->
-      case paris_utils:fmax(fun semver:from_str/1, git:tags(ParisCache)) of
+      case elists:fmax(fun semver:from_str/1, git:tags(ParisCache)) of
         error -> "master";
         Version -> Version
       end

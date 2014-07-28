@@ -12,7 +12,7 @@ help() ->
 
 generate(Generator, Params) ->
   Module = generator_module(Generator),
-  case paris_utils:module_exist(Module) of
+  case eutils:module_exist(Module) of
     true ->
       Module:generate(Params);
     false ->

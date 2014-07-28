@@ -8,7 +8,7 @@ run(["install", URL|Params]) ->
     {true, [AppName]} ->
       ?CONSOLE("* Fetch plugin at ~s", [URL]),
       ParisCache = filename:join([os:getenv("HOME"), ".paris", ".plugin.cache"]),
-      case paris_utils:make_dir(ParisCache) of
+      case efile:make_dir(ParisCache) of
         {error, _} -> ?CONSOLE("[E] Can't create ~s", [ParisCache]);
         ok ->
           case git:clone(URL, ParisCache) of
@@ -17,15 +17,13 @@ run(["install", URL|Params]) ->
                 {ok, Name} -> ?CONSOLE("* Plugin ~s installed!", [Name]);
                 {error, Message} -> ?CONSOLE("[E] ~s", [Message])
               end,
-              paris_utils:remove_recursive(ParisCache);
+              efile:remove_recursive(ParisCache);
             _ -> ?CONSOLE("[E] Can't retrieve data", [])
           end
       end;
     {true, _} -> ?CONSOLE("[E] Can't install plugin in a multi application!", []);
     false -> ?CONSOLE("[E] Not a paris application!", [])
   end;
-run(["remove", Name|_]) ->
-  ?CONSOLE("* Remove plugin ~s", [Name]);
 run(["list"|_]) ->
   case get_plugin_list() of
     {ok, []} -> ?CONSOLE("* No plugin installed", []);
@@ -36,7 +34,15 @@ run(_) -> help().
 
 help() ->
   ?CONSOLE("Usage:", []),
-  ?CONSOLE("~s plugin [action] [options]", [paris:get_script_name()]).
+  ?CONSOLE("~s plugin [action] [options]", [paris:get_script_name()]),
+  ?CONSOLE("~nActions:~n", []),
+  ?CONSOLE("install <url> [options]  : Install a plugin", []),
+  ?CONSOLE("list                     : Display the list of installed plugins", []),
+  ?CONSOLE("~nOptions:~n", []),
+  ?CONSOLE("     --version <version> : Specify the version of the plugin to install (default: master).", []),
+  ?CONSOLE("~nExamples:~n", []),
+  ?CONSOLE("  paris plugin install https://github.com/emedia-project/paris_py --version 0.1.0", []),
+  ?CONSOLE("  paris list", []).
 
 get_plugin_list() ->
   case paris_app:is_app() of
@@ -135,3 +141,4 @@ update_vm_args(PluginName, Term) ->
       end;
     _ -> {ok, PluginName}
   end.
+

@@ -13,23 +13,33 @@ get(_Request) ->
   Datas = lists:map(fun(P) ->
           P:to_keylist()
       end, {{ model_name }}:find(DB, all, [])),
-  paris_response:render_view({{ ctrl_name }}_index, [{ {{ model_name }}s, Datas}]).
+  paris_response:render(
+    html, [
+      {template, {{ ctrl_name }}_index},
+      {data, [{ {{ model_name }}s, Datas}]}]).
 
 % GET /{{ ctrl_name }}/new
 get(_Request, "new") ->
-  paris_response:render_view({{ ctrl_name }}_new);
+  paris_response:render(
+    html, [{template, {{ ctrl_name }}_new}]).
 
 % GET /{{ ctrl_name }}/1
 get(_Request, ID) ->
   DB = paris:get(db),
   Data = {{ model_name }}:find(DB, first, [{where, [{id, ID}]}]),
-  paris_response:render_view({{ ctrl_name }}_show, [{ {{ model_name }}, Data}]).
+  paris_response:render(
+    html, [
+      {template, {{ ctrl_name }}_show},
+      {data, [{ {{ model_name }}, Data}]}]).
 
 % GET /{{ ctrl_name }}/1/edit
 get(_Request, ID, "edit") ->
   DB = paris:get(db),
   Data = {{ model_name }}:find(DB, first, [{where, [{id, ID}]}]),
-  paris_response:render_view({{ ctrl_name }}_edit, [{ {{ model_name }}, Data}]);
+  paris_response:render(
+    html, [
+      {template, {{ ctrl_name }}_edit},
+      {data, [{ {{ model_name }}, Data}]}]).
 
 % GET /{{ ctrl_name }}/1/delete
 get(_Request, ID, "delete") ->
