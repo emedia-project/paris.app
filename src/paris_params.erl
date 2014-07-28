@@ -7,7 +7,7 @@
   ]).
 
 exist(Name, Params) ->
-  elists:include(Name, Params).
+  elists:include(Params, Name).
 
 value(Name, Params) ->
   value(Name, undefined, Params).
