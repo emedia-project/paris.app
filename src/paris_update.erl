@@ -5,14 +5,14 @@
 -include("paris.hrl").
 
 run(Params) ->
-  {InstallTemplates, InstallPlugins} = case {paris_param:exist("--templates", Params),
-                                             paris_param:exist("--plugins", Params)} of
+  {InstallTemplates, InstallPlugins} = case {paris_params:exist("--templates", Params),
+                                             paris_params:exist("--plugins", Params)} of
     {false, false} -> {true, true};
     E -> E
   end,
   update(
-    paris_param:exist("--master", Params),
-    paris_param:exist("--force", Params), 
+    paris_params:exist("--master", Params),
+    paris_params:exist("--force", Params), 
     InstallTemplates, 
     InstallPlugins
     ).
