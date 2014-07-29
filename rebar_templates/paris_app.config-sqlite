@@ -6,6 +6,13 @@
     {routes, [
     ]},
     {plugins, [
+    ]},
+    {mail, [
+      {relay, "localhost"},
+      {port, 25} %,
+      % {ssl, false},
+      % {username, "<user>"},
+      % {password, "<password>"}
     ]}
   ]},
   {texas, [

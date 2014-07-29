@@ -13,9 +13,10 @@
 {dir, "{{name}}/apps/{{name}}/priv/static"}.
 {dir, "{{name}}/apps/{{name}}/priv/static/img"}.
 {dir, "{{name}}/apps/{{name}}/src"}.
-{dir, "{{name}}/apps/{{name}}/src/controller"}.
-{dir, "{{name}}/apps/{{name}}/src/model"}.
-{dir, "{{name}}/apps/{{name}}/src/view"}.
+{dir, "{{name}}/apps/{{name}}/src/controllers"}.
+{dir, "{{name}}/apps/{{name}}/src/models"}.
+{dir, "{{name}}/apps/{{name}}/src/views"}.
+{dir, "{{name}}/apps/{{name}}/src/mailers"}.
 {dir, "{{name}}/config"}.
 {template, "paris_README.md", "{{name}}/README.md"}.
 {template, "paris_start.sh", "{{name}}/{{name}}"}.
@@ -27,10 +28,11 @@
 {file, "paris_vm.args", "{{name}}/config/vm.args"}.
 {template, "paris_app_src", "{{name}}/apps/{{name}}/src/{{name}}.app.src"}.
 {template, "paris_app_db_erl", "{{name}}/apps/{{name}}/src/{{name}}.erl"}.
-{file, "paris_index_erl", "{{name}}/apps/{{name}}/src/controller/index.erl"}.
-{template, "paris_index_html", "{{name}}/apps/{{name}}/src/view/index.html"}.
+{file, "paris_index_erl", "{{name}}/apps/{{name}}/src/controllers/index.erl"}.
+{template, "paris_index_html", "{{name}}/apps/{{name}}/src/views/index.html"}.
 {file, "paris_img_erlang.png", "{{name}}/apps/{{name}}/priv/static/img/erlang.png"}.
 {file, "paris_rebar", "{{name}}/rebar"}.
 {chmod, 8#00770, "{{name}}/rebar"}.
-{file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/model/.gitkeep"}.
+{file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/models/.gitkeep"}.
+{file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/mailers/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/priv/ssl/.gitkeep"}.

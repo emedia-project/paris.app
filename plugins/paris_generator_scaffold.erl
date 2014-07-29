@@ -69,7 +69,7 @@ build_model(AppName, ModelName, Params) ->
   ParamsString = lists:map(fun(Param) ->
           io_lib:format("~p", [Param])
       end, Params),
-  ModelFile = filename:join(["apps", AppName, "src", "model", inflector:singularize(ModelName) ++ ".erl"]),
+  ModelFile = filename:join(["apps", AppName, "src", "models", inflector:singularize(ModelName) ++ ".erl"]),
   case scaffold_model_dtl:render([{name, inflector:singularize(ModelName)}, {columns, ParamsString}]) of
     {ok, Data} -> 
       case file:write_file(ModelFile, Data) of
@@ -81,7 +81,7 @@ build_model(AppName, ModelName, Params) ->
   end.
 
 build_controller(AppName, ModelName, Params) ->
-  ControllerFile = filename:join(["apps", AppName, "src", "controller", inflector:pluralize(ModelName) ++ ".erl"]),
+  ControllerFile = filename:join(["apps", AppName, "src", "controllers", inflector:pluralize(ModelName) ++ ".erl"]),
   case scaffold_controller_dtl:render([
         {ctrl_name, inflector:pluralize(ModelName)},
         {model_name, inflector:singularize(ModelName)},
@@ -97,7 +97,7 @@ build_controller(AppName, ModelName, Params) ->
   end.
 
 build_views(View, AppName, ModelName, Params) ->
-  ViewFile = filename:join(["apps", AppName, "src", "view", inflector:pluralize(ModelName) ++ "_" ++ View ++ ".html"]),
+  ViewFile = filename:join(["apps", AppName, "src", "views", inflector:pluralize(ModelName) ++ "_" ++ View ++ ".html"]),
   ViewTemplate = list_to_atom("scaffold_view_" ++ View ++ "_dtl"),
   case ViewTemplate:render([
         {ctrl_name, inflector:pluralize(ModelName)},

@@ -9,7 +9,7 @@ compile: get-deps
 	@$(REBAR) compile
 
 db-create: compile
-  @$(REBAR) db-create
+  @$(REBAR) db-create texas=config/{{name}}.config
 
 get-deps:
 	@$(REBAR) get-deps

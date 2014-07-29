@@ -13,7 +13,7 @@ is_app() ->
               AppName = filename:basename(App),
               case lists:all(fun(Src) ->
                       filelib:is_dir(filename:join([App, "src", Src]))
-                  end, ["controller", "view", "model"]) of
+                  end, ["controllers", "views", "models", "mailers"]) of
                 false -> Apps;
                 true -> 
                   case filelib:is_regular(filename:join(["config", AppName ++ ".config"])) of
