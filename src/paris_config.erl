@@ -52,7 +52,7 @@ list_add(Path, AppName, Data) ->
     {error, _} -> {error, "Can't open config file"}
   end.
 do_list_add([], Term, Data) -> 
-  case elists:include(Data, Term) of
+  case elists:include(Term, Data) of
     true -> Term;
     false -> lists:reverse([Data|lists:reverse(Term)])
   end;
