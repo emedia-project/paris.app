@@ -1,0 +1,23 @@
+-module({{mailer}}).
+-behaviour(paris_mailer).
+
+-export([from/0, subject/0, cc/0, bcc/0, template/0, done/1]).
+
+from() ->
+  "{{mailer}}@{{appname}}.com".
+
+subject() ->
+  "[{{appname}}] {{mailer}}".
+
+cc() -> 
+  [].
+
+bcc() -> 
+  [].
+
+template() -> 
+  ?MODULE.
+
+done(_Response) -> 
+  ok.
+
