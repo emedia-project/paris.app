@@ -7,6 +7,8 @@
     ]},
     {plugins, [
     ]},
+    {applications, [
+    ]},
     {mail, [
       {relay, "localhost"},
       {port, 25} %,
