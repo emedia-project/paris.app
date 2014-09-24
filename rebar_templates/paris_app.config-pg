@@ -7,7 +7,7 @@
     ]},
     {plugins, [
     ]},
-    {applications, [
+    {start, [
     ]},
     {mail, [
       {relay, "localhost"},
