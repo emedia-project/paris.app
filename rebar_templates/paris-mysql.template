@@ -19,7 +19,7 @@
 {dir, "{{name}}/apps/{{name}}/src/mailers"}.
 {dir, "{{name}}/config"}.
 {template, "paris_README.md", "{{name}}/README.md"}.
-{template, "paris_start.sh", "{{name}}/{{name}}"}.
+{file, "paris_start.sh", "{{name}}/{{name}}"}.
 {chmod, 8#00770, "{{name}}/{{name}}"}.
 {template, "paris_rebar_mysql.config", "{{name}}/rebar.config"}.
 {template, "paris_Makefile_texas", "{{name}}/Makefile"}.

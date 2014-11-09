@@ -29,7 +29,7 @@ help() {
   if [ "x$MESSAGE" != "x" ] ; then
     echo $MESSAGE
   fi
-  echo "Usage : {{name}} [options] {start|stop|console|status}" 
+  echo "Usage : $NAME [options] {start|stop|console|status}" 
   echo ""
   echo "Options :"
   echo "  -d --development : Run in development mode"
