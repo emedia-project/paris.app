@@ -1,4 +1,4 @@
-# Add here all your estra args
+# Add here all your extra args
 # unlike the classique Erlang vm.args, you can use env vars 
 # Example :
 #   -pa $BASEDIR/deps/extra/*/ebin
