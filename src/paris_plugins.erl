@@ -1,38 +1,44 @@
 -module(paris_plugins).
 
 -export([
-  init/0,
-  path/0
-  ]).
+         find/0,
+         help/3
+        ]).
 -include("paris.hrl").
 
-init() ->
+find() ->
   PluginsPath = path(),
   _ = case filelib:is_dir(PluginsPath) of
-    true -> init_plugins(PluginsPath);
-    false -> ok
-  end.
+        true -> load(PluginsPath);
+        false -> []
+      end.
+
+help(Command, Config, Info) ->
+  getopt:usage(paris_config:options(Command, Config), "paris", Info).
 
 path() ->
   filename:join([os:getenv("HOME"), ".paris", "plugins"]).
 
-init_plugins(PluginsPath) ->
+load(PluginsPath) ->
   code:add_patha(PluginsPath),
-  lists:foreach(fun(File) ->
+  lists:foldl(fun(File, Plugins) ->
         case filename:extension(File) of
           ".erl" ->
-            _ = case compile:file(File, [{outdir, PluginsPath}]) of
-              error -> ?CONSOLE("Failed to load plugin from ~s", [File]);
-              {error, _, _} -> ?CONSOLE("Failed to load plugin from ~s", [File]);
-              _ -> ok
+            case compile:file(File, [{outdir, PluginsPath}]) of
+              error -> ?HALT("Failed to load plugin from ~s", [File]);
+              {error, _, _} -> ?HALT("Failed to load plugin from ~s", [File]);
+              _ -> Plugins
             end;
           ".dtl" ->
             Module = list_to_atom(filename:basename(File, ".dtl") ++ "_dtl"),
-            _ = case erlydtl:compile_file(File, Module, [{out_dir, PluginsPath}]) of
-              error -> ?CONSOLE("Failed to load template ~s", [File]);
-              {error, E, _} -> ?CONSOLE("Failed to load template ~s : ~p", [File, E]);
-              _ -> ok
+            case erlydtl:compile_file(File, Module, [{out_dir, PluginsPath}]) of
+              error -> ?HALT("Failed to load template ~s", [File]);
+              {error, E, _} -> ?HALT("Failed to load template ~s : ~p", [File, E]);
+              _ -> Plugins
             end;
-          _ -> ok
+          ".pp" ->
+            #{command := Command} = PluginMap = maps:from_list(file:consult(File)),
+            maps:put(Command, PluginMap, Plugins);
+          _ -> Plugins
         end
-    end, filelib:wildcard(filename:join([PluginsPath, "*"]))).
+    end, #{}, filelib:wildcard(filename:join([PluginsPath, "*"]))).

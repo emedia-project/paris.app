@@ -1,79 +1,56 @@
 -module(paris).
 
 -export([
-  main/1,
-  get_version/0,
-  get_script/0,
-  get_script_name/0
-  ]).
+         main/1,
+         get_script_name/0
+        ]).
 -include("paris.hrl").
 
 main(Args) ->
-  _ = application:start(paris),
-  _ = paris_plugins:init(),
-  run(Args).
-
-run([]) ->
-  help();
-run(["--help"|Rest]) ->
-  help(Rest);
-run(["-h"|Rest]) ->
-  help(Rest);
-run(["--version"|_]) ->
-  version();
-run(["--rebar"|Rest]) ->
-  paris_rebar:run(Rest);
-run([Command|Params]) ->
-  Module = command_module(Command),
-  case eutils:module_exist(Module) of
-    true ->
-      Module:run(Params); 
-    false ->
-      ?CONSOLE("Command `~s' does not exist.", [Command]), help()
-  end;
-run(_) ->
-  run([]).
+  Plugins = maps:merge(paris_plugins:find(), ?PV_PLUGINS),
+  Config = paris_config:load(Plugins),
+  case getopt:parse(paris_config:options(Config) ++ opts(), Args) of
+    {ok, {Options, []}} ->
+      case lists:member(version, Options) of
+        true ->
+          application:load(paris),
+          {ok, Vsn} = application:get_key(paris, vsn),
+          io:format("paris ~s~n", [Vsn]);
+        false ->
+          help(Config)
+      end;
+    {ok, {Options, Commands}} ->
+      run(Config, Options, lists:map(fun eutils:to_atom/1, Commands));
+    {error, _Details} ->
+      help(Config)
+  end.
 
 get_script_name() ->
   filename:basename(escript:script_name()).
 
-get_script() ->
-  escript:script_name().
+%% private
 
-version() ->
-  ?CONSOLE("~s ~s", [get_script_name(), get_version()]). 
+run(Config, Options, [Command | Args]) ->
+  call(Config, Command, Options, Args).
 
-get_version() ->
-  case application:get_key(paris, vsn) of
-    {ok, Vsn} -> Vsn;
-    _ -> "0.0.0"
+call(Config, Command, Options, Args) ->
+  case paris_config:plugin_module(Command, Config) of
+    #{module := Module} -> 
+      Module:run(Config, Options, Args);
+    X ->
+      ?HALT("Invalid command: ~s: ~p", [Command, X])
   end.
 
-help() -> help([]).
-help(Rest) ->
-  version(),
-  case Rest of
-    [] ->
-      ?CONSOLE("Usage : ~s [options] [commands]", [get_script_name()]),
-      ?CONSOLE("~nOptions:~n", []),
-      ?CONSOLE("-h   --help [command] : Display this help, or the specified command help", []),
-      ?CONSOLE("     --version        : Display version", []),
-      ?CONSOLE("     --rebar          : Run rebar command", []),
-      ?CONSOLE("~nCommands:~n", []),
-      ?CONSOLE("install               : Install components", []),
-      ?CONSOLE("update                : Update paris.app", []),
-      ?CONSOLE("new                   : Create a new Paris app", []),
-      ?CONSOLE("generate              : Invoke a generator", []),
-      ?CONSOLE("db                    : Manage database", []);
-    [Command|_] ->
-      Module = command_module(Command),
-      try 
-        Module:help()
-      catch
-        _:_ -> ?CONSOLE("Command `~s' does not exist!", [Command])
-      end
-  end.
+opts() ->
+  [
+   {help,     $h, "help",     undefined, "Display this help"},
+   {version,  $V, "version",  undefined, "Display version"}
+  ].
 
-command_module(Name) ->
-  list_to_atom("paris_" ++ Name).
+help(Config) -> help(Config, "<command>").
+help(Config, Msg) ->
+  getopt:usage(opts(), "paris", Msg),
+  io:format("Commandes:~n~n"),
+  run(Config, [], [commands]),
+  stop.
 
