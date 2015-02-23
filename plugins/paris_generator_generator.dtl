@@ -1,0 +1,18 @@
+-module(paris_generator_{{ name }}).
+
+-export([generate/3]).
+
+generate(Config, Options, Args) ->
+  case (elists:include(Options, help) orelse Args =:= []) of
+    true -> help();
+    false -> g(Config, Args)
+  end.
+
+help() ->
+  paris_log:print("Usage:"),
+  paris_log:print("~s generate {{ name }} <name> [options]", [paris:get_script_name()]),
+  paris_log:print("~nOptions:~n"),
+  paris_log:print("     --help           : Display this help").
+
+g(_Config, [Name|_Args]) ->
+  paris_log:debug("* Generate ~p", [Name]).
