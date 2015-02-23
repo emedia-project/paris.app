@@ -3,7 +3,7 @@
 -export([generate/3]).
 
 generate(Config, Options, Args) ->
-  case (elists:include(Options, help) orelse Args =:= []) of
+  case (elists:include(Options, help)) of
     true -> help();
     false -> g(Config, Args)
   end.
