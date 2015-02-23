@@ -9,6 +9,7 @@
          options/2,
          template_dir/1,
          git_template_url/1,
+         paris_dir/1,
          paris_cache_dir/1,
          paris_plugins_dir/1,
          ready/1
@@ -16,6 +17,7 @@
 -include("paris.hrl").
 -record(config, {git_template_url, 
                  template_dir, 
+                 paris_dir,
                  paris_plugins_dir,
                  paris_cache_dir,
                  plugins}).
@@ -26,8 +28,9 @@ load() ->
            {error, _} -> []
          end,
   TemplateDir = efile:expand_path(elists:keyfind(template_dir, 1, Conf, ?TEMPLATE_DIR)),
-  ParisPluginsDir = efile:expand_path(filename:join([elists:keyfind(paris_dir, 1, Conf, ?PARIS_DIR), "plugins"])),
-  ParisCacheDir = efile:expand_path(filename:join([elists:keyfind(paris_dir, 1, Conf, ?PARIS_DIR), ".app.cache"])),
+  ParisDir = efile:expand_path(elists:keyfind(paris_dir, 1, Conf, ?PARIS_DIR)),
+  ParisPluginsDir = filename:join([ParisDir, "plugins"]),
+  ParisCacheDir = filename:join([ParisDir, ".app.cache"]),
   case efile:make_dir(TemplateDir) of
     {error, Reason} -> 
       ?HALT("! Can't create ~s: ~p", [TemplateDir, Reason]);
@@ -39,6 +42,7 @@ load() ->
           #config{
              git_template_url = elists:keyfind(git_template_url, 1, Conf, ?GIT_TEMPLATE_URL),
              template_dir = TemplateDir,
+             paris_dir = ParisDir,
              paris_plugins_dir = ParisPluginsDir,
              paris_cache_dir = ParisCacheDir,
              plugins = #{}
@@ -63,6 +67,8 @@ options(Command, #config{plugins = Plugins}) ->
 template_dir(#config{template_dir = TemplateDir}) -> TemplateDir.
 
 git_template_url(#config{git_template_url = GitTemplateUrl}) -> GitTemplateUrl.
+
+paris_dir(#config{paris_dir = ParisDir}) -> ParisDir.
 
 paris_cache_dir(#config{paris_cache_dir = ParisCacheDir}) -> ParisCacheDir.
 
