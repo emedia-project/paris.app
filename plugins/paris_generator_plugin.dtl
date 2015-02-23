@@ -3,7 +3,7 @@
 -export([run/3]).
 
 run(Config, Options, Args) ->
-  case (elists:include(Options, help) orelse Args =:= []) of
+  case (elists:include(Options, help)) of
     true -> help(Config);
     false -> {{ name }}(Config, Args, Options)
   end.

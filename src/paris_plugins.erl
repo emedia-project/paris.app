@@ -39,7 +39,7 @@ load(PluginsPath) ->
             case file:consult(File) of
               {ok, PluginData} ->
                 #{command := Command} = PluginMap = maps:from_list(PluginData),
-                maps:put(Command, PluginMap, Plugins);
+                maps:put(eutils:to_atom(Command), PluginMap, Plugins);
               _ ->
                 ?HALT("Can read plugin file ~s", [File])
             end;
