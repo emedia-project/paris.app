@@ -36,8 +36,13 @@ load(PluginsPath) ->
               _ -> Plugins
             end;
           ".pp" ->
-            #{command := Command} = PluginMap = maps:from_list(file:consult(File)),
-            maps:put(Command, PluginMap, Plugins);
+            case file:consult(File) of
+              {ok, PluginData} ->
+                #{command := Command} = PluginMap = maps:from_list(PluginData),
+                maps:put(Command, PluginMap, Plugins);
+              _ ->
+                ?HALT("Can read plugin file ~s", [File])
+            end;
           _ -> Plugins
         end
     end, #{}, filelib:wildcard(filename:join([PluginsPath, "*"]))).
