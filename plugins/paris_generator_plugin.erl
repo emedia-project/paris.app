@@ -14,9 +14,9 @@ help() ->
   paris_log:print("~nOptions:~n"),
   paris_log:print("     --help           : Display this help").
 
-g(_Config, [Name|_]) ->
+g(Config, [Name|_]) ->
   paris_log:debug("* Generate plugin ~s...", [Name]),
-  PluginsPath = paris_config:paris_plugins_dir(),
+  PluginsPath = paris_config:paris_plugins_dir(Config),
   PluginModuleFile = filename:join([PluginsPath, "paris_plugins_" ++ eutils:to_string(Name) ++ ".erl"]),
   case paris_generator_plugin_dtl:render([{name, eutils:to_string(Name)}]) of
     {ok, Data} ->
