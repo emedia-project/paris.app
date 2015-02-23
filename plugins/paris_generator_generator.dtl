@@ -14,5 +14,5 @@ help() ->
   paris_log:print("~nOptions:~n"),
   paris_log:print("     --help           : Display this help").
 
-g(_Config, [Name|_Args]) ->
-  paris_log:debug("* Generate ~p", [Name]).
+g(_Config, _Args) ->
+  paris_log:debug("* Generate {{ name }}").

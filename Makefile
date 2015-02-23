@@ -1,5 +1,9 @@
 REBAR       = ./rebar
 VERSION     = $(shell ./tag)
+RM_RF       = rm -rf
+RM_F        = rm -f
+MKDIR_P     = mkdir -p 
+CP_R        = cp -r 
 
 .PHONY: compile get-deps
 
@@ -55,3 +59,16 @@ buildplt:
 
 checkplt: buildplt
 	@$(REBAR) skip_deps=true check-plt
+
+cleaninstall: installclean install
+
+installclean:
+	@$(RM_RF) ~/.paris
+	@$(RM_F) ~/.rebar/templates/paris*
+
+install: build
+	@$(MKDIR_P) ~/.paris/plugins
+	@$(MKDIR_P) ~/.rebar/templates
+	@$(CP_R) rebar_templates/* ~/.rebar/templates
+	@$(CP_R) plugins/* ~/.paris/plugins
+
