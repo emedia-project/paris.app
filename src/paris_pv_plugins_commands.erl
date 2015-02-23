@@ -2,7 +2,7 @@
 
 -export([run/3]).
 
-run(Config, _Options, _args) ->
+run(Config, _Options, _Args) ->
   Plugins = paris_config:plugins(Config),
   lists:foreach(fun(Command) ->
                     case maps:get(Command, Plugins, undefined) of

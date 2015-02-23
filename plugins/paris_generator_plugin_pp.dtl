@@ -1,0 +1,5 @@
+{command, "{{ name }}"}.
+{module, paris_plugins_{{ name}} }.
+{depends, []}.
+{desc, "Plugin {{ name }}"}.
+{options, []}.

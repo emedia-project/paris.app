@@ -18,7 +18,7 @@ run(Config, Options, Args) ->
 %% private
 
 create(Config, [AppName|Variables], Options) ->
-  case paris_install:ready(Config) of
+  case paris_config:ready(Config) of
     true ->
       AppParams = paris_rebar:params(params(AppName, Variables)),
       paris_log:info("* Create app ~s", [AppName]),

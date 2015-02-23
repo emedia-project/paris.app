@@ -1,38 +1,36 @@
 -module(paris_generator_plugin).
 
--export([generate/1]).
+-export([generate/3]).
 
--define(CONSOLE(Str, Args), io:format(Str++"~n", Args)).
-
-generate(Params) ->
-  PluginsPath = paris_plugins:path(),
-  case efile:make_dir(PluginsPath) of
-    {error, _} -> io:format("[E] Can't create plugin directory~n");
-    ok -> g(PluginsPath, Params)
+generate(Config, Options, Args) ->
+  case (elists:include(Options, help) orelse Args =:= []) of
+    true -> help();
+    false -> g(Config, Args)
   end.
 
-g(_, ["--help"|_]) ->
-  ?CONSOLE("Usage:", []),
-  ?CONSOLE("~s generate plugin [params] [options]", [paris:get_script_name()]),
-  ?CONSOLE("~nParams:~n", []),
-  ?CONSOLE("<name>            : Generate a command plugin with <name>", []),
-  ?CONSOLE("generator <name>  : Generate a generator plugin with <name>", []),
-  ?CONSOLE("~nOptions:~n", []),
-  ?CONSOLE("     --help           : Display this help", []);
-g(PluginsPath, ["generator", Name|_]) ->
-  PluginFile = filename:join([PluginsPath, "paris_generator_" ++ Name ++ ".erl"]),
-  case plugin_generator_dtl:render([{name, Name}]) of
-    {ok, Data} -> 
-      ?CONSOLE("Generate plugin generator ~s", [PluginFile]),
-      file:write_file(PluginFile, Data);
-    _ -> ?CONSOLE("Faild to generate plugin ~s", [PluginFile])
-  end;
-g(PluginsPath, [Name|_]) ->
-  PluginFile = filename:join([PluginsPath, "paris_" ++ Name ++ ".erl"]),
-  case plugin_command_dtl:render([{name, Name}]) of
-    {ok, Data} -> 
-      ?CONSOLE("Generate plugin ~s", [PluginFile]),
-      file:write_file(PluginFile, Data);
-    _ -> ?CONSOLE("Faild to generate plugin ~s", [PluginFile])
+help() ->
+  paris_log:print("Usage:"),
+  paris_log:print("~s generate plugin <name> [options]", [paris:get_script_name()]),
+  paris_log:print("~nOptions:~n"),
+  paris_log:print("     --help           : Display this help").
+
+g(_Config, [Name|_]) ->
+  paris_log:debug("* Generate plugin ~s...", [Name]),
+  PluginsPath = paris_config:paris_plugins_dir(),
+  PluginModuleFile = filename:join([PluginsPath, "paris_plugins_" ++ eutils:to_string(Name) ++ ".erl"]),
+  case paris_generator_plugin_dtl:render([{name, eutils:to_string(Name)}]) of
+    {ok, Data} ->
+      paris_log:info("* Generate ~s", [PluginModuleFile]),
+      file:write_file(PluginModuleFile, Data);
+    _ ->
+      paris_log:stop("! Can't create ~s", [PluginModuleFile])
+  end,
+  PluginPPFile = filename:join([PluginsPath, "paris_plugins_" ++ eutils:to_string(Name) ++ ".pp"]),
+  case paris_generator_plugin_pp_dtl:render([{name, eutils:to_string(Name)}]) of
+    {ok, Data1} ->
+      paris_log:info("* Generate ~s", [PluginPPFile]),
+      file:write_file(PluginPPFile, Data1);
+    _ ->
+      paris_log:stop("! Can't create ~s", [PluginPPFile])
   end.
 

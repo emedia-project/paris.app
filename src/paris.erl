@@ -2,14 +2,18 @@
 
 -export([
          main/1,
-         get_script_name/0
+         get_script_name/0,
+         get_script/0,
+         get_version/0
         ]).
 -include("paris.hrl").
 
 main(Args) ->
-  Plugins = maps:merge(paris_plugins:find(), ?PV_PLUGINS),
-  Config = paris_config:load(Plugins),
-  case getopt:parse(paris_config:options(Config) ++ opts(), Args) of
+  application:start(?MODULE),
+  Config = paris_config:load(),
+  Plugins = maps:merge(paris_plugins:find(Config), ?PV_PLUGINS),
+  Config1 = paris_config:plugins(Config, Plugins),
+  case getopt:parse(paris_config:options(Config1) ++ opts(), Args) of
     {ok, {Options, []}} ->
       case lists:member(version, Options) of
         true ->
@@ -17,16 +21,23 @@ main(Args) ->
           {ok, Vsn} = application:get_key(paris, vsn),
           io:format("paris ~s~n", [Vsn]);
         false ->
-          help(Config)
+          help(Config1)
       end;
     {ok, {Options, Commands}} ->
-      run(Config, Options, lists:map(fun eutils:to_atom/1, Commands));
+      run(Config1, Options, lists:map(fun eutils:to_atom/1, Commands));
     {error, _Details} ->
-      help(Config)
+      help(Config1)
   end.
 
 get_script_name() ->
-  filename:basename(escript:script_name()).
+  filename:basename(get_script()).
+
+get_script() ->
+  escript:script_name().
+
+get_version() ->
+  {ok, Vsn} = application:get_key(paris, vsn),
+  Vsn.
 
 %% private
 

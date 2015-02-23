@@ -1,5 +1,0 @@
-<html>
-  <body>
-  Mail send via {{appname}}/{{mailer}}
-  </body>
-</html>

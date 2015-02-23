@@ -4,7 +4,7 @@
 -define(ERROR(Fmt, Args), io:format("~s~n", [color:red(io_lib:format(Fmt, Args))])).
 -define(HALT(Fmt, Args), ?ERROR(Fmt, Args), halt(1)).
 
--define(GIT_TEMPLATE_URL, {"https://github.com/emedia-project/paris.app", "v2"}).
+-define(GIT_TEMPLATE_URL, "https://github.com/emedia-project/paris.app").
 -define(TEMPLATE_DIR, "~/.rebar/templates").
 -define(PARIS_DIR, "~/.paris").
 
@@ -30,13 +30,20 @@
             desc => "List availables commands",
             options => []
            },
+          generate => #{
+            command => "generate",
+            module => paris_pv_plugins_generate,
+            depends => [],
+            desc => "Common generator",
+            options => []
+           },
           update => #{
             command => "update",
             module => paris_pv_plugins_update,
             depends => [],
             desc => "Update paris.app",
             options => [
-             {master,    $M, "master",    undefined, "Update from master branch (AT YOUR OWN RISKS)"},
+             {branch,    $B, "branch",    string,    "Update from specified branch (AT YOUR OWN RISKS)"},
              {force,     $F, "force",     undefined, "Force to reinstall the last version"},
              {templates, $t, "templates", undefined, "Update templates only"},
              {plugins,   $p, "plugins",   undefined, "Update plugins only"},
@@ -45,9 +52,3 @@
            }
          }).
 
-
-
-
--define(CONSOLE(Str, Args), io:format(Str++"~n", Args)).
--define(TEMPLATES_DIR, "rebar_templates").
--define(PLUGINS_DIR, "plugins").

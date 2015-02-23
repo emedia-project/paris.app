@@ -1,23 +1,22 @@
 -module(paris_plugins).
 
 -export([
-         find/0,
+         find/1,
          help/3
         ]).
 -include("paris.hrl").
 
-find() ->
-  PluginsPath = path(),
+find(Config) ->
+  PluginsPath = paris_config:paris_plugins_dir(Config),
   _ = case filelib:is_dir(PluginsPath) of
         true -> load(PluginsPath);
-        false -> []
+        false -> #{}
       end.
 
 help(Command, Config, Info) ->
   getopt:usage(paris_config:options(Command, Config), "paris", Info).
 
-path() ->
-  filename:join([os:getenv("HOME"), ".paris", "plugins"]).
+% Private 
 
 load(PluginsPath) ->
   code:add_patha(PluginsPath),
@@ -26,14 +25,14 @@ load(PluginsPath) ->
           ".erl" ->
             case compile:file(File, [{outdir, PluginsPath}]) of
               error -> ?HALT("Failed to load plugin from ~s", [File]);
-              {error, _, _} -> ?HALT("Failed to load plugin from ~s", [File]);
+              {error, _, _} -> ?HALT("Failed to compile plugin file ~s", [File]);
               _ -> Plugins
             end;
           ".dtl" ->
             Module = list_to_atom(filename:basename(File, ".dtl") ++ "_dtl"),
             case erlydtl:compile_file(File, Module, [{out_dir, PluginsPath}]) of
               error -> ?HALT("Failed to load template ~s", [File]);
-              {error, E, _} -> ?HALT("Failed to load template ~s : ~p", [File, E]);
+              {error, E, _} -> ?HALT("Failed to compile plugin file ~s : ~p", [File, E]);
               _ -> Plugins
             end;
           ".pp" ->

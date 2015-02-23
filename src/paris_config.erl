@@ -1,14 +1,16 @@
 -module(paris_config).
 
 -export([
-         load/1,
+         load/0,
          plugin_module/2,
+         plugins/2,
          plugins/1,
          options/1,
          options/2,
          template_dir/1,
          git_template_url/1,
          paris_cache_dir/1,
+         paris_plugins_dir/1,
          ready/1
         ]).
 -include("paris.hrl").
@@ -18,7 +20,7 @@
                  paris_cache_dir,
                  plugins}).
 
-load(Plugins) ->
+load() ->
   Conf = case file:consult(filename:join([os:getenv("HOME"), ".paris.conf"])) of
            {ok, Config} -> Config;
            {error, _} -> []
@@ -34,25 +36,21 @@ load(Plugins) ->
         {error, Reason} ->
           ?HALT("! Can't create ~s: ~p", [ParisPluginsDir, Reason]);
         ok ->
-          case efile:make_dir(ParisCacheDir) of
-            {error, Reason} ->
-              ?HALT("! Can't create ~s: ~p", [ParisCacheDir, Reason]);
-            ok ->
-              #config{
-                 git_template_url = elists:keyfind(git_template_url, 1, Conf, ?GIT_TEMPLATE_URL),
-                 template_dir = TemplateDir,
-                 paris_plugins_dir = ParisPluginsDir,
-                 paris_cache_dir = ParisCacheDir,
-                 plugins = Plugins
-                }
-          end
+          #config{
+             git_template_url = elists:keyfind(git_template_url, 1, Conf, ?GIT_TEMPLATE_URL),
+             template_dir = TemplateDir,
+             paris_plugins_dir = ParisPluginsDir,
+             paris_cache_dir = ParisCacheDir,
+             plugins = #{}
+            }
       end
   end.
-  
+
 plugin_module(Command, #config{plugins = Plugins}) ->
   maps:get(Command, Plugins, undefined).
 
 plugins(#config{plugins = Plugins}) -> Plugins.
+plugins(Config, Plugins) -> Config#config{plugins = Plugins}.
 
 options(#config{plugins = Plugins}) ->
   maps:fold(fun(_, #{options := Options}, Acc) ->
@@ -67,6 +65,8 @@ template_dir(#config{template_dir = TemplateDir}) -> TemplateDir.
 git_template_url(#config{git_template_url = GitTemplateUrl}) -> GitTemplateUrl.
 
 paris_cache_dir(#config{paris_cache_dir = ParisCacheDir}) -> ParisCacheDir.
+
+paris_plugins_dir(#config{paris_plugins_dir = ParisPluginsDir}) -> ParisPluginsDir.
 
 ready(Config) ->
   RebarTemplateFile = filename:join([template_dir(Config), "paris.template"]),

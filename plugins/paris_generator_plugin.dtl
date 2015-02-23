@@ -1,0 +1,17 @@
+-module(paris_plugins_{{ name }}).
+
+-export([run/3]).
+
+run(Config, Options, Args) ->
+  case (elists:include(Options, help) orelse Args =:= []) of
+    true -> help(Config);
+    false -> {{ name }}(Config, Args, Options)
+  end.
+
+%% Private
+
+{{ name }}(_Config, _Args, _Options) ->
+  paris_log:debug("Execute plugin {{ name }}").
+
+help(Config) ->
+  paris_plugins:help({{ name }}, Config, "{{ name }}").

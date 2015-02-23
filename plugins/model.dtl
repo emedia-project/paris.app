@@ -1,5 +1,0 @@
--module({{name}}).
--compile([{parse_transform, texas_transform}]).
-{% for column in columns %}
--field({{ column }}).{% endfor %}
-
