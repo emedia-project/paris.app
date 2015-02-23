@@ -1,4 +1,4 @@
--module(paris_generator_plugin).
+-module(paris_generator_generator).
 
 -export([generate/3]).
 
