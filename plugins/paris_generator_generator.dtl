@@ -1,12 +1,18 @@
 -module(paris_generator_{{ name }}).
 
--export([generate/3]).
+-export([
+         generate/3,
+         generator_info/0
+        ]).
 
 generate(Config, Options, Args) ->
   case (elists:include(Options, help)) of
     true -> help();
     false -> g(Config, Args)
   end.
+
+generator_info() ->
+  { {{ name }}, "Generator to create {{ name }}"}.
 
 help() ->
   paris_log:print("Usage:"),

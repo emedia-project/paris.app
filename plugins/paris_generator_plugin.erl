@@ -1,12 +1,18 @@
 -module(paris_generator_plugin).
 
--export([generate/3]).
+-export([
+         generate/3,
+         generator_info/0
+        ]).
 
 generate(Config, Options, Args) ->
   case (elists:include(Options, help) orelse Args =:= []) of
     true -> help();
     false -> g(Config, Args)
   end.
+
+generator_info() ->
+  {plugin, "Generator to create plugins"}.
 
 help() ->
   paris_log:print("Usage:"),

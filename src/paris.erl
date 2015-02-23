@@ -48,8 +48,8 @@ call(Config, Command, Options, Args) ->
   case paris_config:plugin_module(Command, Config) of
     #{module := Module} -> 
       Module:run(Config, Options, Args);
-    X ->
-      ?HALT("Invalid command: ~s: ~p", [Command, X])
+    _ ->
+      ?HALT("! Invalid command: ~s", [Command])
   end.
 
 opts() ->

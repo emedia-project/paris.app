@@ -17,5 +17,26 @@ run(Config, Options, Args) ->
   end.
 
 help(Config) ->
-  paris_plugins:help(generate, Config, "generate <params>").
+  paris_plugins:help(generate, Config, "generate <params>"),
+  PluginsPath = paris_config:paris_plugins_dir(Config),
+  paris_log:print("Generators:~n"),
+  lists:foreach(fun(File) ->
+                    Module = eutils:to_atom(filename:basename(File, ".beam")),
+                    case code:ensure_loaded(Module) of
+                      {module, Module} ->
+                        case erlang:function_exported(Module, generator_info, 0) of
+                          true -> 
+                            case Module:generator_info() of
+                              {Generator, Desc} ->
+                                paris_log:print("~s: ~s", [Generator, Desc]);
+                              _ ->
+                                ok
+                            end;
+                          false -> ok
+                        end;
+                      _ ->
+                        ok
+                    end
+                end, filelib:wildcard(filename:join([PluginsPath, "paris_generator_*.beam"]))).
+
 
