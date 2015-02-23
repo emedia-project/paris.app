@@ -18,7 +18,7 @@ g(Config, [Name|_]) ->
   paris_log:debug("* Generate generator ~s...", [Name]),
   PluginsPath = paris_config:paris_plugins_dir(Config),
   GeneratorModuleFile = filename:join([PluginsPath, "paris_generator_" ++ eutils:to_string(Name) ++ ".erl"]),
-  case paris_generator_plugin_dtl:render([{name, eutils:to_string(Name)}]) of
+  case paris_generator_generator_dtl:render([{name, eutils:to_string(Name)}]) of
     {ok, Data} ->
       paris_log:info("* Generate ~s", [GeneratorModuleFile]),
       file:write_file(GeneratorModuleFile, Data);
