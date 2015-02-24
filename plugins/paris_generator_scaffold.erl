@@ -100,7 +100,7 @@ build_controller(AppName, Name, Params, Options) ->
       case paris_generator_scaffold_controller_dtl:render(
              [{ctrl_name, Name1},
               {model_name, inflector:singularize(eutils:to_string(Name))},
-              {columns, get_params_with_type(Params)}]) of
+              {columns, get_params_with_type_without_id(Params)}]) of
         {ok, Data} ->
           paris_log:info("* ~s ~s", [estring:capitalize(eutils:to_string(Status)), File]),
           file:write_file(File, Data);
@@ -138,3 +138,15 @@ get_params_with_type(Params) ->
             [{name, Column}, {type, string}]
         end
     end, Params).
+
+get_params_with_type_without_id(Params) ->
+  lists:foldl(fun({id, _}, Acc) ->
+                  Acc;
+                 ({Column, Def}, Acc) ->
+                  case lists:keyfind(type, 1, Def) of
+                    {type, Type} -> 
+                      Acc ++ [[{name, Column}, {type, Type}]];
+                    _ -> 
+                      Acc ++ [[{name, Column}, {type, string}]]
+                  end
+              end, [], Params).

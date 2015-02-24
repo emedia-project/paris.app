@@ -63,9 +63,9 @@ post(Request) ->
       Data:insert();
     ID -> 
       DataToUpdate = {{ model_name }}:find(DB, first, [{where, [{id, binary_to_integer(ID)}]}]),
-      [UpdatedData|_] = DataToUpdate:update([{% for column in columns %}{% if forloop.last %}
-            { {{ column.name }}, C{{ column.name }} }{% else %}
-            { {{ column.name }}, C{{ column.name }} },{% endif %}{% endfor %}
+      [UpdatedData|_] = DataToUpdate:update([
+            {id, ID}{% for column in columns %}
+            , { {{ column.name }}, C{{ column.name }} }{% endfor %}
             ]),
       UpdatedData
   end,
