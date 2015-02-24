@@ -16,6 +16,7 @@
             depends => [],
             desc => "Generate a new paris app",
             options => [
+             {help,            $h,        "help",          undefined, "Display this help"},
              {force,           $F,        "force",         undefined, "Force overwriting"}, 
              {'without-texas', undefined, "without-texas", undefined, "Create application without using Texas"},
              {'with-pg',       undefined, "with-pg",       undefined, "Use PostgreSQL"},
@@ -35,7 +36,11 @@
             module => paris_pv_plugins_generate,
             depends => [],
             desc => "Common generator",
-            options => []
+            options => [
+             {help,  $h, "help",  undefined, "Display this help"},
+             {force, $F, "force", undefined, "Overwrite files that already exist"}, 
+             {skip,  $S, "skip",  undefined, "Skip files that already exist"}
+            ]
            },
           update => #{
             command => "update",
@@ -43,6 +48,7 @@
             depends => [],
             desc => "Update paris.app",
             options => [
+             {help,      $h, "help",      undefined, "Display this help"},
              {branch,    $B, "branch",    string,    "Update from specified branch (AT YOUR OWN RISKS)"},
              {force,     $F, "force",     undefined, "Force to reinstall the last version"},
              {templates, $t, "templates", undefined, "Update templates only"},

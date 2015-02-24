@@ -1,6 +1,9 @@
 -module(paris_pv_plugins_generate).
 
--export([run/3]).
+-export([
+         run/3,
+         generate_status/2
+        ]).
 
 run(Config, Options, Args) ->
   case (Args =:= []) of
@@ -14,6 +17,16 @@ run(Config, Options, Args) ->
         false ->
           paris_log:err("! Generator `~s' does not exist.", [Command])
       end
+  end.
+
+generate_status(File, Options) ->
+  case filelib:is_file(File) of
+    true ->
+      case elists:include(Options, force) of
+        true -> overwrite ;
+        false -> skip
+      end;
+    false -> create
   end.
 
 help(Config) ->

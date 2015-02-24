@@ -7,18 +7,15 @@
 
 generate(Config, Options, Args) ->
   case (elists:include(Options, help)) of
-    true -> help();
-    false -> g(Config, Args)
+    true -> help(Config);
+    false -> g(Config, Options, Args)
   end.
 
 generator_info() ->
   { {{ name }}, "Generator to create {{ name }}"}.
 
-help() ->
-  paris_log:print("Usage:"),
-  paris_log:print("~s generate {{ name }} <name> [options]", [paris:get_script_name()]),
-  paris_log:print("~nOptions:~n"),
-  paris_log:print("     --help           : Display this help").
+help(Config) ->
+  paris_plugins:help(generate, Config, "generate {{ name }} <params>").
 
-g(_Config, _Args) ->
+g(_Config, _Options, _Args) ->
   paris_log:debug("* Generate {{ name }}").

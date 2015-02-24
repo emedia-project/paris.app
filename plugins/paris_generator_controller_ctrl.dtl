@@ -1,0 +1,24 @@
+-module({{ name }}).
+
+-export([
+  get/1,
+  post/1,
+  put/1,
+  head/1,
+  delete/1
+]).
+
+get(_Request) ->
+  paris_response:render(html, [{template, {{ name }} }]).
+
+post(_Request) ->
+  paris_response:render(html, [{template, {{ name }} }]).
+
+put(_Request) ->
+  paris_response:render(html, [{template, {{ name }} }]).
+
+head(_Request) ->
+  paris_response:render(html, [{template, {{ name }} }]).
+
+delete(_Request) ->
+  paris_response:render(html, [{template, {{ name }} }]).

@@ -1,0 +1,7 @@
+<html>
+<body>
+<h1>View {{ name }}#{{ name }}</h1>
+
+This file is {{ file }}
+</body>
+</html>
