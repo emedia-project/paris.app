@@ -1,5 +1,6 @@
 APPS  = apps
 REBAR = ./rebar
+MAKE  = make
 
 .PHONY: compile rel get-deps 
 
@@ -32,6 +33,9 @@ doc:
 	done;
 
 dev:
+	@PARIS_RUN_MODE="production" $(MAKE) run-dev
+	
+run-dev:
 	@erl -pa ebin include apps/*/ebin apps/*/include deps/*/ebin deps/*/include -config config/{{name}}.config
 
 analyze: checkplt
