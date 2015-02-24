@@ -38,7 +38,7 @@ If you want to create your own generator, run:
 paris generate generator <you generator name>
 ```
 
-This will generate the file ̀ ~/.paris/plugins/paris_generator_<your generator name>.erl` containing the code of your generator.
+This will generate the file ̀`~/.paris/plugins/paris_generator_<your generator name>.erl` containing the code of your generator.
 
 You can find generator examples in the [plugins directory](https://github.com/emedia-project/paris.app/tree/master/plugins).
 
