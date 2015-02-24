@@ -1,0 +1,11 @@
+{% templatetag openblock %} extends "{{ ctrl_name }}_layout.html" {% templatetag closeblock %}
+{% templatetag openblock %} block content {% templatetag closeblock %}
+{% for column in columns %}{% if column.name != "id" %}
+<p>
+  <strong>{{ column.name }} :</strong>
+  {% templatetag openvariable %} {{ model_name }}.{{ column.name }} {% templatetag closevariable %}
+</p>
+{% endif %}{% endfor %}
+<a href="/{{ ctrl_name }}/{% templatetag openvariable %} {{ model_name }}.id {% templatetag closevariable %}/edit">Edit</a> | 
+<a href="/{{ ctrl_name }}">Back</a>
+{% templatetag openblock %} endblock {% templatetag closeblock %}

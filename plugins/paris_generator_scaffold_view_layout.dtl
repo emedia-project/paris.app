@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>{{ appname }}#{{ name }}</title>
+    <title>{{ ctrl_name }}</title>
     <style>
       body {
         background-color: #fff;
@@ -12,8 +13,7 @@
     </style>
   </head>
   <body>
-    <h1>View {{ appname }}#{{ name }}</h1>
-
-    This file is {{ file }}
+    {% templatetag openblock %} block content {% templatetag closeblock %}
+    {% templatetag openblock %} endblock {% templatetag closeblock %}
   </body>
 </html>

@@ -24,20 +24,25 @@ g(_Config, Options, [Name|_]) ->
       paris_log:stop("! Not a paris application");
     {true, [AppName]} ->
       paris_log:info("* Create controller ~s", [Name1]),
-      ControllerFile = filename:join(["apps", AppName, "src", "controllers", Name1 ++ ".erl"]),
-      create_file(Name1, ControllerFile, Options, paris_generator_controller_ctrl_dtl),
-      ViewFile = filename:join(["apps", AppName, "src", "views", Name1 ++ ".html"]),
-      create_file(Name1, ViewFile, Options, paris_generator_controller_view_dtl);
+      lists:foreach(fun({File, Template}) ->
+                        create_file(AppName, 
+                                    Name1, 
+                                    File, 
+                                    Options, Template)
+                    end, [{filename:join(["apps", AppName, "src", "controllers", Name1 ++ ".erl"]),
+                           paris_generator_controller_ctrl_dtl},
+                          {filename:join(["apps", AppName, "src", "views", Name1 ++ ".html"]),
+                           paris_generator_controller_view_dtl}]);
     {true, _} ->
       paris_log:stop("! Can't create controller in a multi application")
   end.
 
-create_file(Name, File, Options, Template) ->
+create_file(AppName, Name, File, Options, Template) ->
   case paris_pv_plugins_generate:generate_status(File, Options) of
     skip ->
       paris_log:debug("* Skip file ~s: already exist", [File]);
     Status ->
-      case Template:render([{name, Name}, {file, File}]) of
+      case Template:render([{appname, AppName}, {name, Name}, {file, File}]) of
         {ok, Data} ->
           paris_log:info("* ~s ~s", [estring:capitalize(eutils:to_string(Status)), File]),
           file:write_file(File, Data);
