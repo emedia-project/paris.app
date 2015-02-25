@@ -1,6 +1,8 @@
-APPS  = apps
-REBAR = ./rebar
-MAKE  = make
+APPS    = apps
+REBAR   = ./rebar
+MAKE    = make
+MKDIR_P = mkdir -p
+RM_RF   = rm -rf
 
 .PHONY: compile rel get-deps 
 
@@ -10,7 +12,7 @@ compile: get-deps
 	@$(REBAR) compile
 
 db-create: compile
-  @$(REBAR) db-create texas=config/{{name}}.config
+	@$(REBAR) db-create texas=config/{{name}}.config
 
 get-deps:
 	@$(REBAR) get-deps
@@ -23,8 +25,29 @@ clean:
 realclean: clean
 	@$(REBAR) delete-deps
 
-test:
-	@$(REBAR) skip_deps=true eunit
+test: compile
+	@$(RM_RF) .test
+	@$(MKDIR_P) .test
+	@for test in $(wildcard test/*.erl); do \
+		echo "Compile $${test}"; \
+		erlc -v -o .test $${test}; \
+	done;
+	$(eval MODULES := $(shell find .test -type f -name \*.beam \
+				| sed "s/.test\///;s/\.beam/ /" | sed '$$s/.$$//'))
+	@for mod in $(MODULES); do \
+		echo "Run test $${mod}"; \
+		erl -pa .test \
+						ebin \
+						include \
+						apps/*/ebin \
+						apps/*/include \
+						deps/*/ebin \
+						deps/*/include \
+						-config config/{{name}}.config \
+						-noshell \
+						-eval "eunit:test($${mod}, [verbose])" \
+						-s init stop; \
+	done
 
 doc:
 	$(REBAR) skip_deps=true doc

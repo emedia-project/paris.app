@@ -18,6 +18,7 @@
 {dir, "{{name}}/apps/{{name}}/src/views"}.
 {dir, "{{name}}/apps/{{name}}/src/mailers"}.
 {dir, "{{name}}/config"}.
+{dir, "{{name}}/test"}.
 {template, "paris_README.md", "{{name}}/README.md"}.
 {file, "paris_start.sh", "{{name}}/{{name}}"}.
 {chmod, 8#00770, "{{name}}/{{name}}"}.
@@ -36,3 +37,4 @@
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/models/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/mailers/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/priv/ssl/.gitkeep"}.
+{template, "paris_test_erl", "{{name}}/test/index_tests.erl"}.

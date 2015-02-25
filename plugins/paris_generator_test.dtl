@@ -1,0 +1,21 @@
+-module({{ name }}_tests).
+
+-include_lib("eunit/include/eunit.hrl").
+
+{{ name }}_test_() ->
+  {setup,
+   fun setup/0,
+   fun teardown/1,
+   [   
+    ?_test(t_test())
+   ]}. 
+
+setup() ->
+  paris_test:start({{ appname }}).
+
+teardown(_) ->
+  ok.
+
+t_test() ->
+  ?assert(paris:port() =:= 8080).
+
