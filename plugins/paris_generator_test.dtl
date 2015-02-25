@@ -17,5 +17,9 @@ teardown(_) ->
   ok.
 
 t_test() ->
-  ?assert(paris:port() =:= 8080).
+  paris_test:request(get,
+                     <<"http://localhost:8080">>,
+                     fun(R) -> 
+                         paris_test:assert_code(R, 200)
+                     end).
 
