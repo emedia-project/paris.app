@@ -22,13 +22,15 @@ clean:
 realclean: clean
 	@$(REBAR) delete-deps
 
-test: compile
+test-compile: compile
 	@$(RM_RF) .test
 	@$(MKDIR_P) .test
 	@for test in $(wildcard test/*.erl); do \
 		echo "Compile $${test}"; \
 		erlc -v -o .test $${test}; \
 	done;
+
+test: test-compile
 	$(eval MODULES := $(shell find .test -type f -name \*.beam \
 				| sed "s/.test\///;s/\.beam/ /" | sed '$$s/.$$//'))
 	@for mod in $(MODULES); do \
