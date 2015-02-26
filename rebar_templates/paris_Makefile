@@ -3,13 +3,24 @@ REBAR   = ./rebar
 MAKE    = make
 MKDIR_P = mkdir -p
 RM_RF   = rm -rf
+BOWER   = bower
+BOWER_VERSION = $(shell $(BOWER) --version 2>/dev/null)
 
-.PHONY: compile rel get-deps 
+.PHONY: compile rel get-deps test
 
 all: compile
 
-compile: get-deps
+compile: build get-assets-deps
+
+build: get-deps
 	@$(REBAR) compile
+
+get-assets-deps:
+ifdef BOWER_VERSION
+	@$(BOWER) install
+else
+	@echo "Bower is not installed. Can't get assets"
+endif
 
 get-deps:
 	@$(REBAR) get-deps

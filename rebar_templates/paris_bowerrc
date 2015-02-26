@@ -1,0 +1,5 @@
+{
+  "directory": "apps/{{ name }}/priv/static/assets/",
+  "analytics": false
+}
+
