@@ -5,7 +5,10 @@ log
 *.beam
 *.mnesia
 *.txt*
+*.db
+*.swp
 erl_crash.dump
 .eunit
 .test
 doc
+assets
