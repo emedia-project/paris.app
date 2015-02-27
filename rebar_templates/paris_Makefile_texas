@@ -69,7 +69,7 @@ doc:
 		cp -R apps/$${app}/doc doc/$${app}; \
 	done;
 
-dev:
+dev: compile
 	@PARIS_RUN_MODE="production" $(MAKE) run-dev
 	
 run-dev:

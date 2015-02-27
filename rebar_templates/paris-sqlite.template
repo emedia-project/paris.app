@@ -29,8 +29,8 @@
 {file, "paris_gitignore", "{{name}}/.gitignore"}.
 {template, "paris_app.config-sqlite", "{{name}}/config/{{name}}.config"}.
 {file, "paris_vm.args", "{{name}}/config/vm.args"}.
-{template, "paris_app_src", "{{name}}/apps/{{name}}/src/{{name}}.app.src"}.
-{template, "paris_app_db_erl", "{{name}}/apps/{{name}}/src/{{name}}.erl"}.
+{template, "paris_app_db_src", "{{name}}/apps/{{name}}/src/{{name}}.app.src"}.
+{template, "paris_app_erl", "{{name}}/apps/{{name}}/src/{{name}}.erl"}.
 {file, "paris_index_erl", "{{name}}/apps/{{name}}/src/controllers/index.erl"}.
 {template, "paris_index_html", "{{name}}/apps/{{name}}/src/views/index.html"}.
 {file, "paris_img_erlang.png", "{{name}}/apps/{{name}}/priv/static/img/erlang.png"}.
