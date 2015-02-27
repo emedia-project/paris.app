@@ -5,6 +5,7 @@ MKDIR_P = mkdir -p
 RM_RF   = rm -rf
 BOWER   = bower
 BOWER_VERSION = $(shell $(BOWER) --version 2>/dev/null)
+PARIS_TEST_ENV?=
 
 .PHONY: compile rel get-deps test
 
@@ -53,7 +54,7 @@ test: test-compile
 						apps/*/include \
 						deps/*/ebin \
 						deps/*/include \
-						-config config/{{name}}.config \
+						-config config/{{name}}$(PARIS_TEST_ENV).config \
 						-noshell \
 						-eval "eunit:test($${mod}, [verbose, {report, {eunit_surefire, [{dir, \".test\"}]}}])" \
 						-s init stop; \
