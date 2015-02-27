@@ -55,7 +55,7 @@ test: test-compile
 						deps/*/include \
 						-config config/{{name}}.config \
 						-noshell \
-						-eval "eunit:test($${mod}, [verbose])" \
+						-eval "eunit:test($${mod}, [verbose, {report, {eunit_surefire, [{dir, \".test\"}]}}])" \
 						-s init stop; \
 	done
 
