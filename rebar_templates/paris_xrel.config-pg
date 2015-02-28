@@ -1,0 +1,30 @@
+{release, {{{ name }}, "0.0.1"},
+ [{{ name }},
+ cowboy,
+ cowlib,
+ erlydtl,
+ eutils,
+ gen_smtp,
+ goldrush,
+ idna,
+ jsx,
+ lager,
+ merl,
+ mimetypes,
+ paris,
+ ranch,
+ ssl_verify_hostname,
+ texas,
+ texas_pgsql,
+ epgsql]}.
+{output_dir, "_xrel"}.
+{boot, [{{ name }}]}.
+{exclude_dirs, ["_xrel", "_relx", "_rel", "test"]}.
+{include_erts, true}.
+{sys_config, "config/{{ name }}.config"}.
+{vm_args, "config/vm.args"}.
+{providers, [
+  xrel_provider_tar,
+  xrel_provider_zip,
+  xrel_provider_artifactory
+]}.
