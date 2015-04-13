@@ -8,7 +8,8 @@
   delete/1
 ]).
 
-get(_Request) ->
+get(Request) ->
+  paris_i18n:lang(paris_request:param(Request, <<"l">>)),
   paris_response:render(html, [{template, index}]).
 
 post(_Request) ->
