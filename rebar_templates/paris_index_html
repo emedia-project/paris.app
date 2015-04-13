@@ -181,7 +181,7 @@
           </li>
 
           <li>
-            <h3>{% templatetag openblock %} trans "Join the community" {% templatetag closeblock %}</h3>
+            <h3>{% trans "Join the community" %}</h3>
             <ul class="links">
               <li><a href="https://github.com/emedia-project/paris">Paris</a></li>
               <li><a href="https://github.com/emedia-project/paris/wiki">Paris Wiki</a></li>
@@ -193,7 +193,7 @@
           </li>
           
           <li>
-            <h3>{% templatetag openblock %} trans "Browse the documentation" {% templatetag closeblock %}</h3>
+            <h3>{% trans "Browse the documentation" %}</h3>
             <ul class="links">
               <li><a href="https://github.com/emedia-project/paris/wiki">Paris</a></li>
               <li><a href="https://github.com/emedia-project/texas/wiki">Texas</a></li>
@@ -206,22 +206,22 @@
       <div id="content">
         <div id="header">
           <h1>{{name}}</h1>
-          <h2>{% templatetag openblock %} trans "Welcome to Paris!" {% templatetag closeblock %}</h2>
+          <h2>{% trans "Welcome to Paris!" %}</h2>
         </div>
 
         <div id="getting-started">
-          <h1>{% templatetag openblock %} trans "Getting started" {% templatetag closeblock %}</h1>
-          <h2>{% templatetag openblock %} trans "Here&rsquo;s how to get rolling:" {% templatetag closeblock %}</h2>
+          <h1>{% trans "Getting started" %}</h1>
+          <h2>{% trans "Here&rsquo;s how to get rolling:" %}</h2>
           
           <ol>
             <li>
-              <h2>{% templatetag openblock %} trans "Go to" {% templatetag closeblock %} <tt>apps/trans/src</tt> {% templatetag openblock %} trans "to create your models, controllers and views" {% templatetag closeblock %}</h2>
-              <p>{% templatetag openblock %} trans "A controller name `my_controller` will generate a route `/my_controller`." {% templatetag closeblock %}</p>
+              <h2>{% trans "Go to" %} <tt>apps/trans/src</tt> {% trans "to create your models, controllers and views" %}</h2>
+              <p>{% trans "A controller name `my_controller` will generate a route `/my_controller`." %}</p>
             </li>
             
             <li>
-              <h2>{% templatetag openblock %} trans "That's all folks..." {% templatetag closeblock %}</h2>
-              <p>{% templatetag openblock %} trans "...have fun!" {% templatetag closeblock %}</p>
+              <h2>{% trans "That's all folks..." %}</h2>
+              <p>{% trans "...have fun!" %}</p>
             </li>
           </ol>
         </div>
