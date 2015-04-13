@@ -5,6 +5,7 @@
     {max_conn, 100},
     {routes, [
     ]},
+    {i18n, "en"},
     {plugins, [
     ]},
     {start, [
