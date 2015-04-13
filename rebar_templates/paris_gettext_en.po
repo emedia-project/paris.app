@@ -1,0 +1,43 @@
+# Team <info@team.com> PO file for English
+# Copyright (C) YYYY Organization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-07-01 16:45+0200\n"
+"PO-Revision-Date: 2006-07-01 16:45+0200\n"
+"Last-Translator: Gettext-POlish system>\n"
+"Language-Team: Team <info@team.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Join the community"
+msgstr "Join the community"
+
+msgid "Browse the documentation"
+msgstr "Browse the documentation"
+
+msgid "Welcome to Paris!"
+msgstr "Welcome to Paris!"
+
+msgid "Getting started"
+msgstr "Getting started"
+
+msgid "Here&rsquo;s how to get rolling:"
+msgstr "Here&rsquo;s how to get rolling:"
+
+msgid "Go to"
+msgstr "Go to"
+
+msgid "to create your models, controllers and views"
+msgstr "to create your models, controllers and views"
+
+msgid "A controller name `my_controller` will generate a route `/my_controller`."
+msgstr "A controller name `my_controller` will generate a route `/my_controller`."
+
+msgid "That's all folks..."
+msgstr "That's all folks..."
+
+msgid "...have fun!"
+msgstr "...have fun!"

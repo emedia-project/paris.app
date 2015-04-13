@@ -10,6 +10,11 @@
 {dir, "{{name}}/apps/{{name}}"}.
 {dir, "{{name}}/apps/{{name}}/priv"}.
 {dir, "{{name}}/apps/{{name}}/priv/ssl"}.
+{dir, "{{name}}/apps/{{name}}/priv/lang"}.
+{dir, "{{name}}/apps/{{name}}/priv/lang/custom"}.
+{dir, "{{name}}/apps/{{name}}/priv/lang/custom/fr"}.
+{dir, "{{name}}/apps/{{name}}/priv/lang/default"}.
+{dir, "{{name}}/apps/{{name}}/priv/lang/default/en"}.
 {dir, "{{name}}/apps/{{name}}/priv/static"}.
 {dir, "{{name}}/apps/{{name}}/priv/static/img"}.
 {dir, "{{name}}/apps/{{name}}/src"}.
@@ -35,6 +40,8 @@
 {file, "paris_index_erl", "{{name}}/apps/{{name}}/src/controllers/index.erl"}.
 {template, "paris_index_html", "{{name}}/apps/{{name}}/src/views/index.html"}.
 {file, "paris_img_erlang.png", "{{name}}/apps/{{name}}/priv/static/img/erlang.png"}.
+{file, "paris_img_fr.png", "{{name}}/apps/{{name}}/priv/static/img/fr.png"}.
+{file, "paris_img_us.png", "{{name}}/apps/{{name}}/priv/static/img/us.png"}.
 {file, "paris_rebar", "{{name}}/rebar"}.
 {chmod, 8#00770, "{{name}}/rebar"}.
 {file, "paris_xrel", "{{name}}/xrel"}.
@@ -42,4 +49,6 @@
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/models/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/mailers/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/priv/ssl/.gitkeep"}.
+{file, "paris_gettext_fr.po", "{{name}}/apps/{{name}}/priv/lang/custom/fr/gettext.po"}.
+{file, "paris_gettext_en.po", "{{name}}/apps/{{name}}/priv/lang/default/en/gettext.po"}.
 {template, "paris_test_erl", "{{name}}/test/index_tests.erl"}.
