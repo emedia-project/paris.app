@@ -5,6 +5,7 @@
  erlydtl,
  eutils,
  gen_smtp,
+ gettext,
  goldrush,
  idna,
  jsx,
