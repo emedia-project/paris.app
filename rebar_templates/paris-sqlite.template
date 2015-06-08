@@ -1,5 +1,5 @@
 {variables, [
-  {name, "myproject"}, 
+  {name, "myproject"},
   {copyright_year, "2014"},
   {author_name, "Gregoire Lejeune"},
   {author_email,"gregoire.lejeune@free.fr"},
@@ -30,7 +30,7 @@
 {file, "paris_start.sh", "{{name}}/{{name}}"}.
 {chmod, 8#00770, "{{name}}/{{name}}"}.
 {template, "paris_rebar.config-sqlite", "{{name}}/rebar.config"}.
-{template, "paris_xrel.config-sqlite", "{{name}}/xrel.config"}.
+{template, "paris_jorel.config-sqlite", "{{name}}/jorel.config"}.
 {template, "paris_Makefile_texas", "{{name}}/Makefile"}.
 {file, "paris_gitignore", "{{name}}/.gitignore"}.
 {template, "paris_app.config-sqlite", "{{name}}/config/{{name}}.config"}.
@@ -44,8 +44,8 @@
 {file, "paris_img_us.png", "{{name}}/apps/{{name}}/priv/static/img/us.png"}.
 {file, "paris_rebar", "{{name}}/rebar"}.
 {chmod, 8#00770, "{{name}}/rebar"}.
-{file, "paris_xrel", "{{name}}/xrel"}.
-{chmod, 8#00770, "{{name}}/xrel"}.
+{file, "paris_jorel", "{{name}}/jorel"}.
+{chmod, 8#00770, "{{name}}/jorel"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/models/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/src/mailers/.gitkeep"}.
 {file, "paris_gitkeep", "{{name}}/apps/{{name}}/priv/ssl/.gitkeep"}.

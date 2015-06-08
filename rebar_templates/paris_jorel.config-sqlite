@@ -13,34 +13,37 @@
  mimetypes,
  paris,
  ranch,
- ssl_verify_hostname]}.
-{output_dir, "_xrel"}.
+ ssl_verify_hostname,
+ texas,
+ texas_sqlite,
+ esqlite]}.
+{output_dir, "_jorel"}.
 {boot, [{{ name }}]}.
-{exclude_dirs, ["_xrel", "_relx", "_rel", "test"]}.
+{exclude_dirs, ["_jorel", "_relx", "_rel", "test"]}.
 {include_erts, true}.
 {sys_config, "config/{{ name }}.config"}.
 {vm_args, "config/vm.args"}.
 {providers, [
-  xrel_provider_tar,
-  xrel_provider_zip,
-  xrel_provider_deb,
-  xrel_provider_artifactory
+  jorel_provider_tar,
+  jorel_provider_zip,
+  jorel_provider_deb,
+  jorel_provider_artifactory
 ]}.
 {deb, [
   {author_name, "Gregoire Lejeune"},
   {author_email, "gregoire.lejeune@free.fr"},
-  
+
   %% The user under which the service is going to run
   {install_user, "{{ name }}"},
   {install_user_desc, "{{ name }} user"},
-  
+
   %% Package description
   {package_url, "http://github.com/emedia-project/{{ name }}"},
   {package_git, "http://github.com/emedia-project/{{ name }}"},
   {package_shortdesc, "A paris application"},
   {package_desc, "A simple paris application"},
   {package_depends, "libc6 (>= 2.4)"},
-  
+
   %% License and copyright info for the package metadata
   {license_type, "BSD"},
   {copyright, "2015 Gregoire Lejeune"}
